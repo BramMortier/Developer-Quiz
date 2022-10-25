@@ -1,0 +1,72 @@
+@use "../abstracts" as *;
+
+body {
+    font-family: var(--paragraph-font);
+    color: var(--secondary);
+    font-weight: 700;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--heading-font);
+}
+
+.h1,
+h1 {
+    font-size: var(--fs-xlarge);
+}
+
+.h2,
+h2 {
+    font-size: var(--fs-large);
+    margin-bottom: 1rem;
+}
+
+h3,
+.h3 {
+    font-size: var(--fs-small);
+}
+
+.p,
+p {
+    font-family: var(--paragraph-font);
+    font-size: var(--fs-small);
+}
+
+.score {
+    font-size: var(--fs-medium);
+
+    &--label {
+        font-size: var(--fs-tiny);
+        color: var(--accent);
+    }
+}
+
+.result {
+    font-size: var(--fs-xsmall);
+    color: var(--accent);
+}
+
+.text-center {
+    text-align: center;
+}
+
+.font-gimlet {
+    font-family: "gimlet-display", serif;
+}
+
+.font-autopro {
+    font-family: "auto-pro-new", sans-serif;
+}
+
+.red {
+    color: var(--red);
+}
+
+.green {
+    color: var(--green);
+}

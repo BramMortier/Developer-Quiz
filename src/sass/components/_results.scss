@@ -1,0 +1,115 @@
+.results {
+    display: flex;
+    flex-direction: column;
+
+    // Info component styling
+
+    &__info-container {
+        width: 100%;
+        border-top: 2px solid var(--secondary);
+        padding: 1rem 2rem;
+        background-color: var(--dark-gray);
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+        margin-bottom: 3.125rem;
+    }
+
+    &__graph {
+        height: 100%;
+        width: 30%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    &__general-info {
+        width: 70%;
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    &__infopiece {
+        width: 50%;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    // Comparison component styling
+
+    h3 {
+        margin-bottom: 1.25rem;
+        font-size: var(--fs-medium);
+    }
+
+    &__question-comparison {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 1.25rem;
+        gap: 1rem;
+    }
+
+    &__question {
+        display: flex;
+        flex-direction: column;
+
+        &--wrong {
+            .results__question-icon {
+                background-color: var(--accent);
+                padding: 0.9rem;
+            }
+
+            .results__answer-info {
+                display: flex;
+            }
+        }
+
+        &:hover {
+            cursor: pointer;
+
+            .results__question-icon {
+                transform: scale(1.1);
+            }
+
+            p {
+                opacity: 1;
+            }
+        }
+
+        p {
+            opacity: 0.5;
+            transition: all ease 0.2s;
+        }
+    }
+
+    &__question-info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: var(--dark-gray);
+        min-height: 60px;
+
+        p {
+            padding: 0.75rem 2rem;
+            max-width: 40rem;
+        }
+    }
+
+    &__answer-info {
+        margin-top: 1rem;
+        display: none;
+        flex-direction: column;
+        border: solid 3px var(--dark-gray);
+        padding: 1rem 2rem;
+    }
+
+    &__question-icon {
+        align-self: flex-start;
+        height: 60px;
+        width: 60px;
+        padding: 0.75rem;
+        border: solid 3px var(--accent);
+        transition: all ease 0.2s;
+    }
+}

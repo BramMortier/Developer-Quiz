@@ -1,0 +1,16 @@
+@use "../abstracts" as *;
+
+:root {
+    // mapping color variables
+    @each $color, $value in $colormap {
+        --#{$color}: #{$value};
+    }
+
+    // mapping font sizes
+    @each $fontsize, $value in $typescale {
+        --fs-#{$fontsize}: #{$value};
+    }
+
+    --heading-font: "gimlet-display", serif;
+    --paragraph-font: "auto-pro-new", sans-serif;
+}

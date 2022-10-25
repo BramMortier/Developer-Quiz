@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- metadata -->
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Dev Quiz</title>
+
+        <!-- script -->
+        <script defer src="./dist/bundle.js"></script>
+        <!-- stylesheet -->
+        <link rel="stylesheet" href="./dist/bundle.css" />
+    </head>
+    <body>
+        <main>
+            <!-- startscreen begin -->
+            <section class="startscreen container">
+                <h1>Dev Quiz</h1>
+                <div class="startscreen__primary-btns">
+                    <button id="start-btn" class="btn btn--primary">Start</button>
+                    <button id="quit-btn" class="btn btn--secondary">Quit</button>
+                </div>
+                <div class="startscreen__secondary-btns">
+                    <button id="settings-btn" class="icon-btn">
+                        <img src="./src/images/icons/settings.svg" alt="settings" />
+                        <p>settings</p>
+                    </button>
+                    <button id="highscores-btn" class="icon-btn">
+                        <img src="./src/images/icons/highscores.svg" alt="highscores" />
+                        <p>Highscores</p>
+                    </button>
+                </div>
+            </section>
+            <!-- startscreen end -->
+
+            <!-- settings begin -->
+            <section class="settings container container--inactive">
+                <h2>Settings</h2>
+                <div class="settings__list">
+                    <ul class="settings__general">
+                        <li>
+                            <p>amount of questions</p>
+                            <div class="counter-btn">
+                                <img src="./src/images/icons/left-arrow.svg" alt="" />
+                                <p id="amount-of-questions" class="font-gimlet">10</p>
+                                <img src="./src/images/icons/right-arrow.svg" alt="" />
+                            </div>
+                        </li>
+                        <li>
+                            <p>possible answers per question</p>
+                            <div class="counter-btn">
+                                <img src="./src/images/icons/left-arrow.svg" alt="" />
+                                <p id="possible-answers" class="font-gimlet">4</p>
+                                <img src="./src/images/icons/right-arrow.svg" alt="" />
+                            </div>
+                        </li>
+                        <li>
+                            <p>tips allowed</p>
+                            <div class="toggle-btn">
+                                <img src="./src/images/icons/left-arrow.svg" alt="" />
+                                <p id="tips-allowed" class="font-gimlet">off</p>
+                                <img src="./src/images/icons/right-arrow.svg" alt="" />
+                            </div>
+                        </li>
+                        <li>
+                            <p>timelimit</p>
+                            <div class="toggle-btn">
+                                <img src="./src/images/icons/left-arrow.svg" alt="" />
+                                <p id="timelimit-activated" class="font-gimlet">off</p>
+                                <img src="./src/images/icons/right-arrow.svg" alt="" />
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="settings__difficulty">
+                        <p>Select your difficulty</p>
+                        <div class="settings__difficulty-btns">
+                            <button class="btn btn--primary btn--small">Easy</button>
+                            <button class="btn btn--secondary btn--small">Medium</button>
+                            <button class="btn btn--secondary btn--small">Hard</button>
+                        </div>
+                    </div>
+                </div>
+                <button class="back-btn">
+                    <img src="./src/images/icons/back-arrow.svg" alt="highscores" />
+                    <p>back to startscreen</p>
+                </button>
+            </section>
+            <!-- settings end -->
+
+            <!-- question layout begin -->
+            <section class="question container container--inactive">
+                <h2>Question nr</h2>
+                <ul id="question-nav" class="question__numbers"></ul>
+                <h3 id="question" class="font-autopro"></h3>
+                <ul id="answer-list" class="question__answers"></ul>
+                <div class="question__controls">
+                    <div class="question__pagination">
+                        <div id="prev-page" class="pagination-btn">
+                            <img src="./src/images/icons/left-arrow.svg" alt="arrow" />
+                            <p class="font-gimlet">Prev</p>
+                        </div>
+                        <span>|</span>
+                        <div id="next-page" class="pagination-btn">
+                            <p class="font-gimlet">Next</p>
+                            <img src="./src/images/icons/right-arrow.svg" alt="arrow" />
+                        </div>
+                    </div>
+                    <button id="submit-quiz-btn" class="btn btn--primary btn--small">Submit</button>
+                </div>
+                <button class="back-btn">
+                    <img src="./src/images/icons/back-arrow.svg" alt="highscores" />
+                    <p>back to startscreen</p>
+                </button>
+            </section>
+            <!-- question layout end -->
+
+            <!-- highscores lqyout begin -->
+            <section class="highscores container container--inactive">
+                <h2>Highscores</h2>
+                <ul class="highscores__list">
+                    <li class="highscores__entry highscores__entry--champion">
+                        <div class="highscores__entry-user">
+                            <img src="./src/images/icons/crown.svg" alt="crown" />
+                            <p>Bram Mortier</p>
+                        </div>
+                        <div class="highscores__entry-points">
+                            <p class="score font-gimlet">22489</p>
+                            <p class="score--label">Points</p>
+                        </div>
+                    </li>
+                    <li class="highscores__entry">
+                        <div class="highscores__entry-user">
+                            <img src="./src/images/icons/user.svg" alt="crown" />
+                            <p>Manu Van Leirberghe</p>
+                        </div>
+                        <div class="highscores__entry-points">
+                            <p class="score font-gimlet">18754</p>
+                            <p class="score--label">Points</p>
+                        </div>
+                    </li>
+                    <li class="highscores__entry">
+                        <div class="highscores__entry-user">
+                            <img src="./src/images/icons/user.svg" alt="crown" />
+                            <p>Fien Haelvoet</p>
+                        </div>
+                        <div class="highscores__entry-points">
+                            <p class="score font-gimlet">15689</p>
+                            <p class="score--label">Points</p>
+                        </div>
+                    </li>
+                    <li class="highscores__entry">
+                        <div class="highscores__entry-user">
+                            <img src="./src/images/icons/user.svg" alt="crown" />
+                            <p>Jonas Petrens</p>
+                        </div>
+                        <div class="highscores__entry-points">
+                            <p class="score font-gimlet">6859</p>
+                            <p class="score--label">Points</p>
+                        </div>
+                    </li>
+                </ul>
+                <button class="back-btn">
+                    <img src="./src/images/icons/back-arrow.svg" alt="highscores" />
+                    <p>back to startscreen</p>
+                </button>
+            </section>
+            <!-- highscores layout end -->
+
+            <!-- results layout begin -->
+            <section class="results container container--inactive">
+                <h2 class="text-center">Results</h2>
+                <div class="results__info-container">
+                    <div class="results__graph">
+                        <div id="graph-progress" class="circle-graph">
+                            <h2 id="progress-value" class="circle-graph__content"></h2>
+                        </div>
+                    </div>
+                    <div class="results__general-info">
+                        <div class="results__infopiece">
+                            <p>Score:</p>
+                            <p class="font-gimlet result">???</p>
+                        </div>
+                        <div class="results__infopiece">
+                            <p>Total questions:</p>
+                            <p class="font-gimlet result">???</p>
+                        </div>
+                        <div class="results__infopiece">
+                            <p>Answered correct:</p>
+                            <p class="font-gimlet result">???</p>
+                        </div>
+                        <div class="results__infopiece">
+                            <p>Topic:</p>
+                            <p class="font-gimlet result">???</p>
+                        </div>
+                        <div class="results__infopiece">
+                            <p>Difficulty:</p>
+                            <p class="font-gimlet result">???</p>
+                        </div>
+                        <div class="results__infopiece">
+                            <p>Final:</p>
+                            <p class="font-gimlet result">???</p>
+                        </div>
+                    </div>
+                </div>
+                <h3 class="font-autopro">Answer comparison</h3>
+                <div id="question-comparison-list" class="results__question-comparison"></div>
+                <button class="back-btn">
+                    <img src="./src/images/icons/back-arrow.svg" alt="highscores" />
+                    <p>back to startscreen</p>
+                </button>
+            </section>
+            <!-- results layout end -->
+        </main>
+    </body>
+</html>
