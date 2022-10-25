@@ -533,7 +533,7 @@ p {
 }
 .results__question--wrong .results__question-icon {
   background-color: var(--accent);
-  padding: 0.9rem;
+  padding: 1rem;
 }
 .results__question--wrong .results__answer-info {
   display: flex;

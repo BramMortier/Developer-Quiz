@@ -1,87 +1,49 @@
-// ------------------------------------- //
+// ------------------------------------------- //
 // sass entry point
 import "../sass/style.scss";
 
 // module imports
+import * as CONSTS from "./constants";
+import * as GLOBALS from "./globals";
 import { initCircleGraph } from "./circleGraph";
-// ------------------------------------- //
+import { changeScreen } from "./screenNav";
+// ------------------------------------------- //
 
-// Screen navigation logic
-
-// Screens
-const startScreen = document.querySelector(".startscreen");
-const questionScreen = document.querySelector(".question");
-const settingsScreen = document.querySelector(".settings");
-const highscores = document.querySelector(".highscores");
-const resultScreen = document.querySelector(".results");
-
-const pages = [startScreen, questionScreen, settingsScreen, highscores, resultScreen];
-
-// Buttons
-const startBtn = document.getElementById("start-btn");
-const quitBtn = document.getElementById("quit-btn");
-const settingsBtn = document.getElementById("settings-btn");
-const backBtns = [...document.querySelectorAll(".back-btn")];
-const highscoresBtn = document.getElementById("highscores-btn");
-
-const changeScreen = (destinationScreen) => {
-    destinationScreen.classList.remove("container--inactive");
-
-    pages.map((page) => {
-        if (page !== destinationScreen) {
-            page.classList.add("container--inactive");
-        }
-    });
+window.onload = () => {
+    GLOBALS.initSessionStorage();
 };
 
 // Button Actions
-backBtns.map((btn) => {
+CONSTS.backBtns.map((btn) => {
     btn.addEventListener("click", () => {
-        changeScreen(startScreen);
+        changeScreen(CONSTS.startScreen);
     });
 });
 
-settingsBtn.addEventListener("click", () => {
-    changeScreen(settingsScreen);
+CONSTS.settingsBtn.addEventListener("click", () => {
+    changeScreen(CONSTS.settingsScreen);
 });
 
-startBtn.addEventListener("click", () => {
-    changeScreen(questionScreen);
+CONSTS.startBtn.addEventListener("click", () => {
+    changeScreen(CONSTS.questionScreen);
     startNewQuiz();
 });
 
-highscoresBtn.addEventListener("click", () => {
-    changeScreen(highscores);
+CONSTS.highscoresBtn.addEventListener("click", () => {
+    changeScreen(CONSTS.highscores);
 });
 
-quitBtn.addEventListener("click", () => {
+CONSTS.quitBtn.addEventListener("click", () => {
     window.close();
 });
 
-// Setting Elements
-const amountOfQuestions = document.getElementById("amount-of-questions");
-const possibleAnswers = document.getElementById("possible-answers");
-const tipsAllowed = document.getElementById("tips-allowed");
-const timelimitActivated = document.getElementById("timelimit-activated");
-
-// const counters = [...document.querySelectorAll(".counter-btn")];
-// const toggles = [...document.querySelectorAll(".toggle-btn")];
-
 // Quiz settings logic
 let quizSettings = {
-    amountOfQuestions: Number(amountOfQuestions.innerText),
-    possibleAnswers: Number(possibleAnswers.innerText),
-    tipsOn: tipsAllowed.innerText === "Off" ? false : true,
-    timelimitOn: timelimitActivated.innerText === "Off" ? false : true,
+    amountOfQuestions: Number(CONSTS.amountOfQuestions.innerText),
+    possibleAnswers: Number(CONSTS.possibleAnswers.innerText),
+    tipsOn: CONSTS.tipsAllowed.innerText === "Off" ? false : true,
+    timelimitOn: CONSTS.timelimitActivated.innerText === "Off" ? false : true,
     difficulty: "Easy",
-};
-
-if (!localStorage.getItem("quizSettings")) {
-    localStorage.setItem("quizSettings", JSON.stringify(quizSettings));
-}
-
-const updateQuizSettings = () => {
-    localStorage.setItem("quizSettings", quizSettings);
 };
 
 // Fetching data
@@ -103,78 +65,68 @@ const fetchQuiz = async () => {
 };
 
 // Quiz init
-let quizData;
-
 const startNewQuiz = async () => {
-    quizData = await fetchQuiz();
-    createAnswerStorage(quizData);
-    questionIndex = 1;
-    displayQuestion(quizData);
+    GLOBALS.setQuizData(await fetchQuiz());
+    createAnswerStorage(GLOBALS.getQuizData());
+    GLOBALS.setQuestionIndex(1);
+    displayQuestion(GLOBALS.getQuizData());
 };
 
 // Quiz answer storage
-let answerStorage = [];
-
 const createAnswerStorage = (data) => {
-    answerStorage = data.map((answer, index) => {
+    let answerStorageBase = data.map((answer, index) => {
         return {
-            selectedAnswer: undefined,
-            correctAnswer: undefined,
+            selectedAnswer: -1,
+            correctAnswer: -1,
         };
     });
+    GLOBALS.setAnswerStorage(answerStorageBase);
 };
 
 const updateAnswerStorage = (questionIndex, selectedAnswer, correctAnswer) => {
-    answerStorage[questionIndex - 1] = {
+    let answerStorageCurrent = GLOBALS.getAnswerStorage();
+    answerStorageCurrent[questionIndex - 1] = {
         selectedAnswer: selectedAnswer,
         correctAnswer: correctAnswer,
     };
+    GLOBALS.setAnswerStorage(answerStorageCurrent);
 };
 
 // Quiz submit logic
-const submitQuizBtn = document.getElementById("submit-quiz-btn");
-const questionComparisonList = document.getElementById("question-comparison-list");
-const resultElements = [...document.querySelectorAll(".results__infopiece")];
-let quizScore = 0;
-
-submitQuizBtn.addEventListener("click", () => {
-    submitQuiz(answerStorage, quizData);
-    changeScreen(resultScreen);
+CONSTS.submitQuizBtn.addEventListener("click", () => {
+    submitQuiz(GLOBALS.getAnswerStorage(), GLOBALS.getQuizData());
+    changeScreen(CONSTS.resultScreen);
 });
 
 const compareAnswer = (answerEntry) => {
-    if (
-        answerEntry.selectedAnswer !== undefined &&
-        answerEntry.correctAnswer !== undefined &&
-        answerEntry.selectedAnswer === answerEntry.correctAnswer
-    ) {
+    if (answerEntry.selectedAnswer !== -1 && answerEntry.correctAnswer !== -1 && answerEntry.selectedAnswer === answerEntry.correctAnswer) {
         return true;
     }
 };
 
 const submitQuiz = (answers, questions) => {
-    questionComparisonList.innerHTML = "";
-    quizScore = 0;
+    CONSTS.questionComparisonList.innerHTML = "";
+    GLOBALS.setQuizScore(0);
 
     answers.map((answer) => {
         if (compareAnswer(answer)) {
-            quizScore++;
+            GLOBALS.setQuizScore(GLOBALS.getQuizScore() + 1);
         }
     });
 
-    resultElements.map((el) => {
+    CONSTS.resultElements.map((el) => {
         let resultType = el.childNodes[1].innerText.slice(0, -1).toLowerCase();
         let resultValue = el.childNodes[3];
 
-        if (resultType === "score") resultValue.innerText = `${(quizScore / quizSettings.amountOfQuestions) * 100}%`;
+        if (resultType === "score") resultValue.innerText = `${(GLOBALS.getQuizScore() / quizSettings.amountOfQuestions) * 100}%`;
         if (resultType === "total questions") resultValue.innerText = quizSettings.amountOfQuestions;
-        if (resultType === "answered correct") resultValue.innerText = quizScore;
+        if (resultType === "answered correct") resultValue.innerText = GLOBALS.getQuizScore();
         if (resultType === "topic") resultValue.innerText = "Random";
         if (resultType === "difficulty") resultValue.innerText = quizSettings.difficulty;
-        if (resultType === "final") resultValue.innerText = (quizScore / quizSettings.amountOfQuestions) * 100 >= 50 ? "Pass" : "Fail";
+        if (resultType === "final") resultValue.innerText = (GLOBALS.getQuizScore() / quizSettings.amountOfQuestions) * 100 >= 50 ? "Pass" : "Fail";
     });
 
-    initCircleGraph((quizScore / quizSettings.amountOfQuestions) * 100);
+    initCircleGraph((GLOBALS.getQuizScore() / quizSettings.amountOfQuestions) * 100);
 
     questions.map((question, index) => {
         let answerCorrect = compareAnswer(answers[index]);
@@ -207,7 +159,7 @@ const submitQuiz = (answers, questions) => {
                 </div>
             </div>
         `;
-        questionComparisonList.appendChild(questionComparisonEl);
+        CONSTS.questionComparisonList.appendChild(questionComparisonEl);
     });
 };
 
@@ -216,34 +168,26 @@ const trimString = (text) => {
 };
 
 // Question pagination logic
-const prevPageBtn = document.getElementById("prev-page");
-const nextPageBtn = document.getElementById("next-page");
-let questionIndex;
-
-nextPageBtn.addEventListener("click", () => {
-    if (questionIndex > quizSettings.amountOfQuestions - 1) questionIndex = 0;
-    questionIndex++;
-    displayQuestion(quizData);
-    highlightSelectedAnswer(questionIndex);
+CONSTS.nextPageBtn.addEventListener("click", () => {
+    if (GLOBALS.getQuestionIndex() > quizSettings.amountOfQuestions - 1) GLOBALS.setQuestionIndex(0);
+    GLOBALS.setQuestionIndex(GLOBALS.getQuestionIndex() + 1);
+    displayQuestion(GLOBALS.getQuizData());
+    highlightSelectedAnswer(GLOBALS.getQuestionIndex());
 });
 
-prevPageBtn.addEventListener("click", () => {
-    if (questionIndex <= 1) questionIndex = quizSettings.amountOfQuestions + 1;
-    questionIndex--;
-    displayQuestion(quizData);
-    highlightSelectedAnswer(questionIndex);
+CONSTS.prevPageBtn.addEventListener("click", () => {
+    if (GLOBALS.getQuestionIndex() <= 1) GLOBALS.setQuestionIndex(quizSettings.amountOfQuestions + 1);
+    GLOBALS.setQuestionIndex(GLOBALS.getQuestionIndex() - 1);
+    displayQuestion(GLOBALS.getQuizData());
+    highlightSelectedAnswer(GLOBALS.getQuestionIndex());
 });
 
 // Display current question
-const question = document.getElementById("question");
-const answerList = document.getElementById("answer-list");
-const questionNav = document.getElementById("question-nav");
-
-const highlightSelectedAnswer = (questionIndex) => {
-    let selectedIndex = answerStorage[questionIndex - 1].selectedAnswer;
+export const highlightSelectedAnswer = (questionIndex) => {
+    let selectedIndex = GLOBALS.getAnswerStorage()[questionIndex - 1].selectedAnswer;
 
     if (selectedIndex == undefined) return;
-    [...answerList.children].map((el, index) => {
+    [...CONSTS.answerList.children].map((el, index) => {
         if (selectedIndex === index) {
             el.classList.add("question__answer--selected");
         } else {
@@ -252,38 +196,36 @@ const highlightSelectedAnswer = (questionIndex) => {
     });
 };
 
-const renderQuestionNavigation = (questions) => {
-    questionNav.innerHTML = "";
+export const renderQuestionNavigation = (questions) => {
+    CONSTS.questionNav.innerHTML = "";
 
     questions.map((question, index) => {
         let questionNumberEl = document.createElement("li");
 
-        if (index === questionIndex - 1) questionNumberEl.classList.add("question__number--selected");
+        if (index === GLOBALS.getQuestionIndex() - 1) questionNumberEl.classList.add("question__number--selected");
         questionNumberEl.classList.add("question__number");
 
         questionNumberEl.addEventListener("click", (e) => {
-            questionIndex = Number(e.target.innerText) > 9 ? Number(e.target.innerText) : Number(e.target.innerText.slice(1));
-            displayQuestion(quizData);
-            highlightSelectedAnswer(questionIndex);
+            GLOBALS.setQuestionIndex(Number(e.target.innerText) > 9 ? Number(e.target.innerText) : Number(e.target.innerText.slice(1)));
+            displayQuestion(GLOBALS.getQuizData());
+            highlightSelectedAnswer(GLOBALS.getQuestionIndex());
         });
 
         questionNumberEl.innerText = index >= 9 ? index + 1 : `0${index + 1}`;
-        questionNav.appendChild(questionNumberEl);
+        CONSTS.questionNav.appendChild(questionNumberEl);
     });
 };
 
-const displayQuestion = (data) => {
+export const displayQuestion = (data) => {
     renderQuestionNavigation(data);
 
-    let currentQuestion = data[questionIndex - 1];
-    // console.log(currentQuestion);
+    let currentQuestion = data[GLOBALS.getQuestionIndex() - 1];
 
     let currentQuestionAnswers = Object.values(currentQuestion.answers);
     let correctAnswer = findCorrectAnswerIndex(Object.values(currentQuestion.correct_answers));
-    // console.log(correctAnswer);
 
-    question.innerText = currentQuestion.question;
-    answerList.innerHTML = "";
+    CONSTS.questionPhrase.innerText = currentQuestion.question;
+    CONSTS.answerList.innerHTML = "";
 
     currentQuestionAnswers.map((answer, index) => {
         if (answer !== null) {
@@ -291,18 +233,18 @@ const displayQuestion = (data) => {
             answerEl.classList.add("question__answer");
             answerEl.innerHTML = `<p>${answer.replace("<", "&lt;")}</p>`;
 
-            answerList.appendChild(answerEl);
+            CONSTS.answerList.appendChild(answerEl);
 
             answerEl.addEventListener("click", () => {
-                updateAnswerStorage(questionIndex, index, correctAnswer);
-                highlightSelectedAnswer(questionIndex);
+                updateAnswerStorage(GLOBALS.getQuestionIndex(), index, correctAnswer);
+                highlightSelectedAnswer(GLOBALS.getQuestionIndex());
             });
         }
     });
 };
 
 // Finds the correct answer by index in the correct-answers object
-const findCorrectAnswerIndex = (answers) => {
+export const findCorrectAnswerIndex = (answers) => {
     let correctIndex;
     answers.map((answer, index) => {
         if (answer == "true") correctIndex = index;

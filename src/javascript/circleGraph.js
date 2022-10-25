@@ -1,7 +1,6 @@
-// Circle graph logic
-const graphProgress = document.getElementById("graph-progress");
-const progressValue = document.getElementById("progress-value");
+import * as CONSTS from "./constants";
 
+// Circle graph logic
 const getScoreGrade = (progress) => {
     if (progress == 100) return "S";
     if (progress >= 90) return "A";
@@ -11,15 +10,15 @@ const getScoreGrade = (progress) => {
     return "F";
 };
 
-const initCircleGraph = (score) => {
+export const initCircleGraph = (score) => {
     let currentProgress = -1;
     let progressEndValue = score;
     let speed = 20;
 
     let progressInterval = setInterval(() => {
         currentProgress++;
-        progressValue.innerText = getScoreGrade(currentProgress);
-        graphProgress.style.background = `
+        CONSTS.progressValue.innerText = getScoreGrade(currentProgress);
+        CONSTS.graphProgress.style.background = `
             conic-gradient(
                 var(--accent) ${currentProgress * 3.6}deg,
                 var(--primary) ${currentProgress * 3.6}deg     
@@ -28,5 +27,3 @@ const initCircleGraph = (score) => {
         if (currentProgress == progressEndValue) clearInterval(progressInterval);
     }, speed);
 };
-
-export { initCircleGraph };
