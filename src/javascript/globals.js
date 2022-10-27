@@ -5,6 +5,9 @@ export const initSessionStorage = () => {
     if (!sessionStorage.getItem("answerStorage")) {
         sessionStorage.setItem("answerStorage", []);
     }
+    if (!sessionStorage.getItem("quizSettings")) {
+        sessionStorage.setItem("quizSettings", {});
+    }
     sessionStorage.setItem("quizScore", 0);
     sessionStorage.setItem("questionIndex", 0);
 };
@@ -25,6 +28,15 @@ export const setAnswerStorage = (data) => {
 
 export const getAnswerStorage = () => {
     return JSON.parse(sessionStorage.getItem("answerStorage"));
+};
+
+// QuizSettings get & set
+export const setQuizSettings = (data) => {
+    sessionStorage.setItem("quizSettings", JSON.stringify(data));
+};
+
+export const getQuizSettings = () => {
+    return JSON.parse(sessionStorage.getItem("quizSettings"));
 };
 
 // QuizScore get & set

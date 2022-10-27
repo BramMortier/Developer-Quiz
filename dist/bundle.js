@@ -129,11 +129,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "getQuestionIndex": () => (/* binding */ getQuestionIndex),
 /* harmony export */   "getQuizData": () => (/* binding */ getQuizData),
 /* harmony export */   "getQuizScore": () => (/* binding */ getQuizScore),
+/* harmony export */   "getQuizSettings": () => (/* binding */ getQuizSettings),
 /* harmony export */   "initSessionStorage": () => (/* binding */ initSessionStorage),
 /* harmony export */   "setAnswerStorage": () => (/* binding */ setAnswerStorage),
 /* harmony export */   "setQuestionIndex": () => (/* binding */ setQuestionIndex),
 /* harmony export */   "setQuizData": () => (/* binding */ setQuizData),
-/* harmony export */   "setQuizScore": () => (/* binding */ setQuizScore)
+/* harmony export */   "setQuizScore": () => (/* binding */ setQuizScore),
+/* harmony export */   "setQuizSettings": () => (/* binding */ setQuizSettings)
 /* harmony export */ });
 var initSessionStorage = function initSessionStorage() {
   if (!sessionStorage.getItem("quizData")) {
@@ -141,6 +143,9 @@ var initSessionStorage = function initSessionStorage() {
   }
   if (!sessionStorage.getItem("answerStorage")) {
     sessionStorage.setItem("answerStorage", []);
+  }
+  if (!sessionStorage.getItem("quizSettings")) {
+    sessionStorage.setItem("quizSettings", {});
   }
   sessionStorage.setItem("quizScore", 0);
   sessionStorage.setItem("questionIndex", 0);
@@ -162,6 +167,14 @@ var getAnswerStorage = function getAnswerStorage() {
   return JSON.parse(sessionStorage.getItem("answerStorage"));
 };
 
+// QuizSettings get & set
+var setQuizSettings = function setQuizSettings(data) {
+  sessionStorage.setItem("quizSettings", JSON.stringify(data));
+};
+var getQuizSettings = function getQuizSettings() {
+  return JSON.parse(sessionStorage.getItem("quizSettings"));
+};
+
 // QuizScore get & set
 var setQuizScore = function setQuizScore(score) {
   sessionStorage.setItem("quizScore", score);
@@ -176,6 +189,41 @@ var setQuestionIndex = function setQuestionIndex(index) {
 };
 var getQuestionIndex = function getQuestionIndex() {
   return Number(sessionStorage.getItem("questionIndex"));
+};
+
+/***/ }),
+
+/***/ "./src/javascript/helperFunctions.js":
+/*!*******************************************!*\
+  !*** ./src/javascript/helperFunctions.js ***!
+  \*******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "compareAnswer": () => (/* binding */ compareAnswer),
+/* harmony export */   "findCorrectAnswerIndex": () => (/* binding */ findCorrectAnswerIndex),
+/* harmony export */   "trimString": () => (/* binding */ trimString)
+/* harmony export */ });
+// Compares the indexes of the given answer and the correct answer
+var compareAnswer = function compareAnswer(answerEntry) {
+  if (answerEntry.selectedAnswer !== -1 && answerEntry.correctAnswer !== -1 && answerEntry.selectedAnswer === answerEntry.correctAnswer) {
+    return true;
+  }
+};
+
+// Limit a string to 60 chars
+var trimString = function trimString(text) {
+  return text.length > 60 ? "".concat(text.substring(0, 60), "...") : text;
+};
+
+// Finds the correct answer by index in the correct-answers object
+var findCorrectAnswerIndex = function findCorrectAnswerIndex(answers) {
+  var correctIndex;
+  answers.map(function (answer, index) {
+    if (answer == "true") correctIndex = index;
+  });
+  return correctIndex;
 };
 
 /***/ }),
@@ -200,6 +248,59 @@ var changeScreen = function changeScreen(destinationScreen) {
     if (page !== destinationScreen) {
       page.classList.add("container--inactive");
     }
+  });
+};
+
+/***/ }),
+
+/***/ "./src/javascript/submitQuiz.js":
+/*!**************************************!*\
+  !*** ./src/javascript/submitQuiz.js ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "submitQuiz": () => (/* binding */ submitQuiz)
+/* harmony export */ });
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./constants */ "./src/javascript/constants.js");
+/* harmony import */ var _globals__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./globals */ "./src/javascript/globals.js");
+/* harmony import */ var _circleGraph__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./circleGraph */ "./src/javascript/circleGraph.js");
+/* harmony import */ var _helperFunctions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./helperFunctions */ "./src/javascript/helperFunctions.js");
+
+
+
+
+var submitQuiz = function submitQuiz(answers, questions) {
+  _constants__WEBPACK_IMPORTED_MODULE_0__.questionComparisonList.innerHTML = "";
+  _globals__WEBPACK_IMPORTED_MODULE_1__.setQuizScore(0);
+  answers.map(function (answer) {
+    if ((0,_helperFunctions__WEBPACK_IMPORTED_MODULE_3__.compareAnswer)(answer)) {
+      _globals__WEBPACK_IMPORTED_MODULE_1__.setQuizScore(_globals__WEBPACK_IMPORTED_MODULE_1__.getQuizScore() + 1);
+    }
+  });
+  _constants__WEBPACK_IMPORTED_MODULE_0__.resultElements.map(function (el) {
+    var resultType = el.childNodes[1].innerText.slice(0, -1).toLowerCase();
+    var resultValue = el.childNodes[3];
+    if (resultType === "score") resultValue.innerText = "".concat(_globals__WEBPACK_IMPORTED_MODULE_1__.getQuizScore() / _globals__WEBPACK_IMPORTED_MODULE_1__.getQuizSettings().amountOfQuestions * 100, "%");
+    if (resultType === "total questions") resultValue.innerText = _globals__WEBPACK_IMPORTED_MODULE_1__.getQuizSettings().amountOfQuestions;
+    if (resultType === "answered correct") resultValue.innerText = _globals__WEBPACK_IMPORTED_MODULE_1__.getQuizScore();
+    if (resultType === "topic") resultValue.innerText = "Random";
+    if (resultType === "difficulty") resultValue.innerText = _globals__WEBPACK_IMPORTED_MODULE_1__.getQuizSettings().difficulty;
+    if (resultType === "final") resultValue.innerText = _globals__WEBPACK_IMPORTED_MODULE_1__.getQuizScore() / _globals__WEBPACK_IMPORTED_MODULE_1__.getQuizSettings().amountOfQuestions * 100 >= 50 ? "Pass" : "Fail";
+  });
+  (0,_circleGraph__WEBPACK_IMPORTED_MODULE_2__.initCircleGraph)(_globals__WEBPACK_IMPORTED_MODULE_1__.getQuizScore() / _globals__WEBPACK_IMPORTED_MODULE_1__.getQuizSettings().amountOfQuestions * 100);
+  questions.map(function (question, index) {
+    var answerCorrect = (0,_helperFunctions__WEBPACK_IMPORTED_MODULE_3__.compareAnswer)(answers[index]);
+    var questionComparisonEl = document.createElement("div");
+    var answerArray = Object.values(question.answers);
+    var correctAnswer = answerArray[(0,_helperFunctions__WEBPACK_IMPORTED_MODULE_3__.findCorrectAnswerIndex)(Object.values(question.correct_answers))];
+    var givenAnswer = answerArray[answers[index].selectedAnswer];
+    if (givenAnswer == undefined) givenAnswer = "No answer selected";
+    questionComparisonEl.classList.add("results__question");
+    if (!answerCorrect) questionComparisonEl.classList.add("results__question--wrong");
+    questionComparisonEl.innerHTML = "\n            <div class=\"results__question-info\">\n                <p>".concat((0,_helperFunctions__WEBPACK_IMPORTED_MODULE_3__.trimString)(question.question), "</p>\n                <div class=\"results__question-icon\">\n                    <img src=\"./src/images/icons/").concat(answerCorrect ? "check" : "wrong", ".svg\" alt=\"checkmark\" />\n                </div>\n            </div> \n            <div class=\"results__answer-info\">\n                <div class=\"results__wrong-answer\">\n                    <p>Your answer</p>\n                    <p class=\"red\">").concat(givenAnswer.replace("<", "&lt;"), "</p>\n                </div>\n                <div class=\"results__correct-answer\">\n                    <p>Correct answer</p>\n                    <p class=\"green\">").concat(correctAnswer.replace("<", "&lt;"), "</p>\n                </div>\n            </div>\n        ");
+    _constants__WEBPACK_IMPORTED_MODULE_0__.questionComparisonList.appendChild(questionComparisonEl);
   });
 };
 
@@ -282,15 +383,15 @@ var __webpack_exports__ = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "displayQuestion": () => (/* binding */ displayQuestion),
-/* harmony export */   "findCorrectAnswerIndex": () => (/* binding */ findCorrectAnswerIndex),
 /* harmony export */   "highlightSelectedAnswer": () => (/* binding */ highlightSelectedAnswer),
 /* harmony export */   "renderQuestionNavigation": () => (/* binding */ renderQuestionNavigation)
 /* harmony export */ });
 /* harmony import */ var _sass_style_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../sass/style.scss */ "./src/sass/style.scss");
 /* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./constants */ "./src/javascript/constants.js");
 /* harmony import */ var _globals__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./globals */ "./src/javascript/globals.js");
-/* harmony import */ var _circleGraph__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./circleGraph */ "./src/javascript/circleGraph.js");
-/* harmony import */ var _screenNav__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./screenNav */ "./src/javascript/screenNav.js");
+/* harmony import */ var _screenNav__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./screenNav */ "./src/javascript/screenNav.js");
+/* harmony import */ var _submitQuiz__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./submitQuiz */ "./src/javascript/submitQuiz.js");
+/* harmony import */ var _helperFunctions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./helperFunctions */ "./src/javascript/helperFunctions.js");
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -310,6 +411,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 
+
 // ------------------------------------------- //
 
 window.onload = function () {
@@ -319,18 +421,18 @@ window.onload = function () {
 // Button Actions
 _constants__WEBPACK_IMPORTED_MODULE_1__.backBtns.map(function (btn) {
   btn.addEventListener("click", function () {
-    (0,_screenNav__WEBPACK_IMPORTED_MODULE_4__.changeScreen)(_constants__WEBPACK_IMPORTED_MODULE_1__.startScreen);
+    (0,_screenNav__WEBPACK_IMPORTED_MODULE_3__.changeScreen)(_constants__WEBPACK_IMPORTED_MODULE_1__.startScreen);
   });
 });
 _constants__WEBPACK_IMPORTED_MODULE_1__.settingsBtn.addEventListener("click", function () {
-  (0,_screenNav__WEBPACK_IMPORTED_MODULE_4__.changeScreen)(_constants__WEBPACK_IMPORTED_MODULE_1__.settingsScreen);
+  (0,_screenNav__WEBPACK_IMPORTED_MODULE_3__.changeScreen)(_constants__WEBPACK_IMPORTED_MODULE_1__.settingsScreen);
 });
 _constants__WEBPACK_IMPORTED_MODULE_1__.startBtn.addEventListener("click", function () {
-  (0,_screenNav__WEBPACK_IMPORTED_MODULE_4__.changeScreen)(_constants__WEBPACK_IMPORTED_MODULE_1__.questionScreen);
+  (0,_screenNav__WEBPACK_IMPORTED_MODULE_3__.changeScreen)(_constants__WEBPACK_IMPORTED_MODULE_1__.questionScreen);
   startNewQuiz();
 });
 _constants__WEBPACK_IMPORTED_MODULE_1__.highscoresBtn.addEventListener("click", function () {
-  (0,_screenNav__WEBPACK_IMPORTED_MODULE_4__.changeScreen)(_constants__WEBPACK_IMPORTED_MODULE_1__.highscores);
+  (0,_screenNav__WEBPACK_IMPORTED_MODULE_3__.changeScreen)(_constants__WEBPACK_IMPORTED_MODULE_1__.highscores);
 });
 _constants__WEBPACK_IMPORTED_MODULE_1__.quitBtn.addEventListener("click", function () {
   window.close();
@@ -356,8 +458,8 @@ var fetchQuiz = /*#__PURE__*/function () {
             url = new URL("https://quizapi.io/api/v1/questions");
             params = {
               apiKey: "Yk930yLz3W65YXkbfkG5Cu1E3Aduuk2LqfAsO1k1",
-              limit: quizSettings.amountOfQuestions,
-              difficulty: quizSettings.difficulty
+              limit: _globals__WEBPACK_IMPORTED_MODULE_2__.getQuizSettings().amountOfQuestions,
+              difficulty: _globals__WEBPACK_IMPORTED_MODULE_2__.getQuizSettings().difficulty
             };
             url.search = new URLSearchParams(params).toString();
             _context.next = 5;
@@ -388,16 +490,17 @@ var startNewQuiz = /*#__PURE__*/function () {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
+            _globals__WEBPACK_IMPORTED_MODULE_2__.setQuizSettings(quizSettings);
             _context2.t0 = _globals__WEBPACK_IMPORTED_MODULE_2__;
-            _context2.next = 3;
+            _context2.next = 4;
             return fetchQuiz();
-          case 3:
+          case 4:
             _context2.t1 = _context2.sent;
             _context2.t0.setQuizData.call(_context2.t0, _context2.t1);
             createAnswerStorage(_globals__WEBPACK_IMPORTED_MODULE_2__.getQuizData());
             _globals__WEBPACK_IMPORTED_MODULE_2__.setQuestionIndex(1);
             displayQuestion(_globals__WEBPACK_IMPORTED_MODULE_2__.getQuizData());
-          case 8:
+          case 9:
           case "end":
             return _context2.stop();
         }
@@ -430,59 +533,19 @@ var updateAnswerStorage = function updateAnswerStorage(questionIndex, selectedAn
 
 // Quiz submit logic
 _constants__WEBPACK_IMPORTED_MODULE_1__.submitQuizBtn.addEventListener("click", function () {
-  submitQuiz(_globals__WEBPACK_IMPORTED_MODULE_2__.getAnswerStorage(), _globals__WEBPACK_IMPORTED_MODULE_2__.getQuizData());
-  (0,_screenNav__WEBPACK_IMPORTED_MODULE_4__.changeScreen)(_constants__WEBPACK_IMPORTED_MODULE_1__.resultScreen);
+  (0,_submitQuiz__WEBPACK_IMPORTED_MODULE_4__.submitQuiz)(_globals__WEBPACK_IMPORTED_MODULE_2__.getAnswerStorage(), _globals__WEBPACK_IMPORTED_MODULE_2__.getQuizData());
+  (0,_screenNav__WEBPACK_IMPORTED_MODULE_3__.changeScreen)(_constants__WEBPACK_IMPORTED_MODULE_1__.resultScreen);
 });
-var compareAnswer = function compareAnswer(answerEntry) {
-  if (answerEntry.selectedAnswer !== -1 && answerEntry.correctAnswer !== -1 && answerEntry.selectedAnswer === answerEntry.correctAnswer) {
-    return true;
-  }
-};
-var submitQuiz = function submitQuiz(answers, questions) {
-  _constants__WEBPACK_IMPORTED_MODULE_1__.questionComparisonList.innerHTML = "";
-  _globals__WEBPACK_IMPORTED_MODULE_2__.setQuizScore(0);
-  answers.map(function (answer) {
-    if (compareAnswer(answer)) {
-      _globals__WEBPACK_IMPORTED_MODULE_2__.setQuizScore(_globals__WEBPACK_IMPORTED_MODULE_2__.getQuizScore() + 1);
-    }
-  });
-  _constants__WEBPACK_IMPORTED_MODULE_1__.resultElements.map(function (el) {
-    var resultType = el.childNodes[1].innerText.slice(0, -1).toLowerCase();
-    var resultValue = el.childNodes[3];
-    if (resultType === "score") resultValue.innerText = "".concat(_globals__WEBPACK_IMPORTED_MODULE_2__.getQuizScore() / quizSettings.amountOfQuestions * 100, "%");
-    if (resultType === "total questions") resultValue.innerText = quizSettings.amountOfQuestions;
-    if (resultType === "answered correct") resultValue.innerText = _globals__WEBPACK_IMPORTED_MODULE_2__.getQuizScore();
-    if (resultType === "topic") resultValue.innerText = "Random";
-    if (resultType === "difficulty") resultValue.innerText = quizSettings.difficulty;
-    if (resultType === "final") resultValue.innerText = _globals__WEBPACK_IMPORTED_MODULE_2__.getQuizScore() / quizSettings.amountOfQuestions * 100 >= 50 ? "Pass" : "Fail";
-  });
-  (0,_circleGraph__WEBPACK_IMPORTED_MODULE_3__.initCircleGraph)(_globals__WEBPACK_IMPORTED_MODULE_2__.getQuizScore() / quizSettings.amountOfQuestions * 100);
-  questions.map(function (question, index) {
-    var answerCorrect = compareAnswer(answers[index]);
-    var questionComparisonEl = document.createElement("div");
-    var answerArray = Object.values(question.answers);
-    var correctAnswer = answerArray[findCorrectAnswerIndex(Object.values(question.correct_answers))];
-    var givenAnswer = answerArray[answers[index].selectedAnswer];
-    if (givenAnswer == undefined) givenAnswer = "No answer selected";
-    questionComparisonEl.classList.add("results__question");
-    if (!answerCorrect) questionComparisonEl.classList.add("results__question--wrong");
-    questionComparisonEl.innerHTML = "\n            <div class=\"results__question-info\">\n                <p>".concat(trimString(question.question), "</p>\n                <div class=\"results__question-icon\">\n                    <img src=\"./src/images/icons/").concat(answerCorrect ? "check" : "wrong", ".svg\" alt=\"checkmark\" />\n                </div>\n            </div> \n            <div class=\"results__answer-info\">\n                <div class=\"results__wrong-answer\">\n                    <p>Your answer</p>\n                    <p class=\"red\">").concat(givenAnswer.replace("<", "&lt;"), "</p>\n                </div>\n                <div class=\"results__correct-answer\">\n                    <p>Correct answer</p>\n                    <p class=\"green\">").concat(correctAnswer.replace("<", "&lt;"), "</p>\n                </div>\n            </div>\n        ");
-    _constants__WEBPACK_IMPORTED_MODULE_1__.questionComparisonList.appendChild(questionComparisonEl);
-  });
-};
-var trimString = function trimString(text) {
-  return text.length > 60 ? "".concat(text.substring(0, 60), "...") : text;
-};
 
 // Question pagination logic
 _constants__WEBPACK_IMPORTED_MODULE_1__.nextPageBtn.addEventListener("click", function () {
-  if (_globals__WEBPACK_IMPORTED_MODULE_2__.getQuestionIndex() > quizSettings.amountOfQuestions - 1) _globals__WEBPACK_IMPORTED_MODULE_2__.setQuestionIndex(0);
+  if (_globals__WEBPACK_IMPORTED_MODULE_2__.getQuestionIndex() > _globals__WEBPACK_IMPORTED_MODULE_2__.getQuizSettings().amountOfQuestions - 1) _globals__WEBPACK_IMPORTED_MODULE_2__.setQuestionIndex(0);
   _globals__WEBPACK_IMPORTED_MODULE_2__.setQuestionIndex(_globals__WEBPACK_IMPORTED_MODULE_2__.getQuestionIndex() + 1);
   displayQuestion(_globals__WEBPACK_IMPORTED_MODULE_2__.getQuizData());
   highlightSelectedAnswer(_globals__WEBPACK_IMPORTED_MODULE_2__.getQuestionIndex());
 });
 _constants__WEBPACK_IMPORTED_MODULE_1__.prevPageBtn.addEventListener("click", function () {
-  if (_globals__WEBPACK_IMPORTED_MODULE_2__.getQuestionIndex() <= 1) _globals__WEBPACK_IMPORTED_MODULE_2__.setQuestionIndex(quizSettings.amountOfQuestions + 1);
+  if (_globals__WEBPACK_IMPORTED_MODULE_2__.getQuestionIndex() <= 1) _globals__WEBPACK_IMPORTED_MODULE_2__.setQuestionIndex(_globals__WEBPACK_IMPORTED_MODULE_2__.getQuizSettings().amountOfQuestions + 1);
   _globals__WEBPACK_IMPORTED_MODULE_2__.setQuestionIndex(_globals__WEBPACK_IMPORTED_MODULE_2__.getQuestionIndex() - 1);
   displayQuestion(_globals__WEBPACK_IMPORTED_MODULE_2__.getQuizData());
   highlightSelectedAnswer(_globals__WEBPACK_IMPORTED_MODULE_2__.getQuestionIndex());
@@ -519,7 +582,7 @@ var displayQuestion = function displayQuestion(data) {
   renderQuestionNavigation(data);
   var currentQuestion = data[_globals__WEBPACK_IMPORTED_MODULE_2__.getQuestionIndex() - 1];
   var currentQuestionAnswers = Object.values(currentQuestion.answers);
-  var correctAnswer = findCorrectAnswerIndex(Object.values(currentQuestion.correct_answers));
+  var correctAnswer = (0,_helperFunctions__WEBPACK_IMPORTED_MODULE_5__.findCorrectAnswerIndex)(Object.values(currentQuestion.correct_answers));
   _constants__WEBPACK_IMPORTED_MODULE_1__.questionPhrase.innerText = currentQuestion.question;
   _constants__WEBPACK_IMPORTED_MODULE_1__.answerList.innerHTML = "";
   currentQuestionAnswers.map(function (answer, index) {
@@ -534,15 +597,6 @@ var displayQuestion = function displayQuestion(data) {
       });
     }
   });
-};
-
-// Finds the correct answer by index in the correct-answers object
-var findCorrectAnswerIndex = function findCorrectAnswerIndex(answers) {
-  var correctIndex;
-  answers.map(function (answer, index) {
-    if (answer == "true") correctIndex = index;
-  });
-  return correctIndex;
 };
 })();
 
