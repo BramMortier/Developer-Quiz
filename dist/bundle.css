@@ -621,4 +621,15 @@ main::after {
   display: none;
 }
 
+body::-webkit-scrollbar-track {
+  background-color: var(--dark-gray);
+}
+body::-webkit-scrollbar {
+  width: 0.75rem;
+  background-color: var(--dark-gray);
+}
+body::-webkit-scrollbar-thumb {
+  background-color: var(--accent);
+}
+
 /*# sourceMappingURL=bundle.css.map*/
