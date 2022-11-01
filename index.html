@@ -41,34 +41,34 @@
                     <ul class="settings__general">
                         <li>
                             <p>amount of questions</p>
-                            <div class="counter-btn">
-                                <img src="./src/images/icons/left-arrow.svg" alt="" />
-                                <p id="amount-of-questions" class="font-gimlet">10</p>
-                                <img src="./src/images/icons/right-arrow.svg" alt="" />
+                            <div class="counter-btn" id="amount-of-questions">
+                                <img src="./src/images/icons/left-arrow.svg" data-action="lower" alt="left-arrow" />
+                                <p class="font-gimlet">10</p>
+                                <img src="./src/images/icons/right-arrow.svg" data-action="higher" alt="right-arrow" />
                             </div>
                         </li>
                         <li>
                             <p>possible answers per question</p>
-                            <div class="counter-btn">
-                                <img src="./src/images/icons/left-arrow.svg" alt="" />
-                                <p id="possible-answers" class="font-gimlet">4</p>
-                                <img src="./src/images/icons/right-arrow.svg" alt="" />
+                            <div class="counter-btn" id="possible-answers">
+                                <img src="./src/images/icons/left-arrow.svg" data-action="lower" alt="left-arrow" />
+                                <p class="font-gimlet">4</p>
+                                <img src="./src/images/icons/right-arrow.svg" data-action="higher" alt="right-arrow" />
                             </div>
                         </li>
                         <li>
                             <p>tips allowed</p>
-                            <div class="toggle-btn">
-                                <img src="./src/images/icons/left-arrow.svg" alt="" />
-                                <p id="tips-allowed" class="font-gimlet">off</p>
-                                <img src="./src/images/icons/right-arrow.svg" alt="" />
+                            <div class="toggle-btn" id="tips-allowed">
+                                <img src="./src/images/icons/left-arrow.svg" alt="left-arrow" />
+                                <p class="font-gimlet">off</p>
+                                <img src="./src/images/icons/right-arrow.svg" alt="right-arrow" />
                             </div>
                         </li>
                         <li>
                             <p>timelimit</p>
-                            <div class="toggle-btn">
-                                <img src="./src/images/icons/left-arrow.svg" alt="" />
-                                <p id="timelimit-activated" class="font-gimlet">off</p>
-                                <img src="./src/images/icons/right-arrow.svg" alt="" />
+                            <div class="toggle-btn" id="timelimit-activated">
+                                <img src="./src/images/icons/left-arrow.svg" alt="left-arrow" />
+                                <p class="font-gimlet">off</p>
+                                <img src="./src/images/icons/right-arrow.svg" alt="right-arrow" />
                             </div>
                         </li>
                     </ul>
@@ -80,6 +80,10 @@
                             <button class="btn btn--secondary btn--small">Hard</button>
                         </div>
                     </div>
+                </div>
+                <div class="settings__controls">
+                    <button id="reset-settings" class="btn btn--secondary btn--small">Reset</button>
+                    <button id="apply-settings" class="btn btn--primary btn--small">Submit</button>
                 </div>
                 <button class="back-btn">
                     <img src="./src/images/icons/back-arrow.svg" alt="highscores" />

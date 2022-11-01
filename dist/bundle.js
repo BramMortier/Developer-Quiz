@@ -48,6 +48,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "amountOfQuestions": () => (/* binding */ amountOfQuestions),
 /* harmony export */   "answerList": () => (/* binding */ answerList),
+/* harmony export */   "applySettingsBtn": () => (/* binding */ applySettingsBtn),
 /* harmony export */   "backBtns": () => (/* binding */ backBtns),
 /* harmony export */   "graphProgress": () => (/* binding */ graphProgress),
 /* harmony export */   "highscores": () => (/* binding */ highscores),
@@ -98,6 +99,7 @@ var amountOfQuestions = document.getElementById("amount-of-questions");
 var possibleAnswers = document.getElementById("possible-answers");
 var tipsAllowed = document.getElementById("tips-allowed");
 var timelimitActivated = document.getElementById("timelimit-activated");
+var applySettingsBtn = document.getElementById("apply-settings");
 
 // Submit Screen Elements
 var submitQuizBtn = document.getElementById("submit-quiz-btn");
@@ -131,14 +133,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _globals__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./globals */ "./src/javascript/globals.js");
 /* harmony import */ var _submitQuiz__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./submitQuiz */ "./src/javascript/submitQuiz.js");
 /* harmony import */ var _screenNav__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./screenNav */ "./src/javascript/screenNav.js");
-/* harmony import */ var _renderQuestion__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./renderQuestion */ "./src/javascript/renderQuestion.js");
+/* harmony import */ var _settings__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./settings */ "./src/javascript/settings.js");
+/* harmony import */ var _renderQuestion__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./renderQuestion */ "./src/javascript/renderQuestion.js");
+
 
 
 
 
 
 var initEvents = function initEvents() {
-  // Button Actions
+  // Button actions
   _constants__WEBPACK_IMPORTED_MODULE_0__.backBtns.map(function (btn) {
     btn.addEventListener("click", function () {
       (0,_screenNav__WEBPACK_IMPORTED_MODULE_3__.changeScreen)(_constants__WEBPACK_IMPORTED_MODULE_0__.startScreen);
@@ -154,6 +158,20 @@ var initEvents = function initEvents() {
     window.close();
   });
 
+  // Quiz settings counter buttons
+  _constants__WEBPACK_IMPORTED_MODULE_0__.amountOfQuestions.addEventListener("click", function (e) {
+    (0,_settings__WEBPACK_IMPORTED_MODULE_4__.updateCounter)(e, _settings__WEBPACK_IMPORTED_MODULE_4__.maxAmountOfQuestions);
+  });
+  _constants__WEBPACK_IMPORTED_MODULE_0__.possibleAnswers.addEventListener("click", function (e) {
+    (0,_settings__WEBPACK_IMPORTED_MODULE_4__.updateCounter)(e, _settings__WEBPACK_IMPORTED_MODULE_4__.maxPossibleAnswers);
+  });
+  _constants__WEBPACK_IMPORTED_MODULE_0__.tipsAllowed.addEventListener("click", function (e) {
+    (0,_settings__WEBPACK_IMPORTED_MODULE_4__.updateToggle)(e);
+  });
+  _constants__WEBPACK_IMPORTED_MODULE_0__.timelimitActivated.addEventListener("click", function (e) {
+    (0,_settings__WEBPACK_IMPORTED_MODULE_4__.updateToggle)(e);
+  });
+
   // Quiz submit logic
   _constants__WEBPACK_IMPORTED_MODULE_0__.submitQuizBtn.addEventListener("click", function () {
     (0,_submitQuiz__WEBPACK_IMPORTED_MODULE_2__.submitQuiz)(_globals__WEBPACK_IMPORTED_MODULE_1__.getAnswerStorage(), _globals__WEBPACK_IMPORTED_MODULE_1__.getQuizData());
@@ -164,14 +182,14 @@ var initEvents = function initEvents() {
   _constants__WEBPACK_IMPORTED_MODULE_0__.nextPageBtn.addEventListener("click", function () {
     if (_globals__WEBPACK_IMPORTED_MODULE_1__.getQuestionIndex() > _globals__WEBPACK_IMPORTED_MODULE_1__.getQuizSettings().amountOfQuestions - 1) _globals__WEBPACK_IMPORTED_MODULE_1__.setQuestionIndex(0);
     _globals__WEBPACK_IMPORTED_MODULE_1__.setQuestionIndex(_globals__WEBPACK_IMPORTED_MODULE_1__.getQuestionIndex() + 1);
-    (0,_renderQuestion__WEBPACK_IMPORTED_MODULE_4__.displayQuestion)(_globals__WEBPACK_IMPORTED_MODULE_1__.getQuizData());
-    (0,_renderQuestion__WEBPACK_IMPORTED_MODULE_4__.highlightSelectedAnswer)(_globals__WEBPACK_IMPORTED_MODULE_1__.getQuestionIndex());
+    (0,_renderQuestion__WEBPACK_IMPORTED_MODULE_5__.displayQuestion)(_globals__WEBPACK_IMPORTED_MODULE_1__.getQuizData());
+    (0,_renderQuestion__WEBPACK_IMPORTED_MODULE_5__.highlightSelectedAnswer)(_globals__WEBPACK_IMPORTED_MODULE_1__.getQuestionIndex());
   });
   _constants__WEBPACK_IMPORTED_MODULE_0__.prevPageBtn.addEventListener("click", function () {
     if (_globals__WEBPACK_IMPORTED_MODULE_1__.getQuestionIndex() <= 1) _globals__WEBPACK_IMPORTED_MODULE_1__.setQuestionIndex(_globals__WEBPACK_IMPORTED_MODULE_1__.getQuizSettings().amountOfQuestions + 1);
     _globals__WEBPACK_IMPORTED_MODULE_1__.setQuestionIndex(_globals__WEBPACK_IMPORTED_MODULE_1__.getQuestionIndex() - 1);
-    (0,_renderQuestion__WEBPACK_IMPORTED_MODULE_4__.displayQuestion)(_globals__WEBPACK_IMPORTED_MODULE_1__.getQuizData());
-    (0,_renderQuestion__WEBPACK_IMPORTED_MODULE_4__.highlightSelectedAnswer)(_globals__WEBPACK_IMPORTED_MODULE_1__.getQuestionIndex());
+    (0,_renderQuestion__WEBPACK_IMPORTED_MODULE_5__.displayQuestion)(_globals__WEBPACK_IMPORTED_MODULE_1__.getQuizData());
+    (0,_renderQuestion__WEBPACK_IMPORTED_MODULE_5__.highlightSelectedAnswer)(_globals__WEBPACK_IMPORTED_MODULE_1__.getQuestionIndex());
   });
 };
 
@@ -470,10 +488,17 @@ var changeScreen = function changeScreen(destinationScreen) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "quizSettings": () => (/* binding */ quizSettings)
+/* harmony export */   "checkCounterValue": () => (/* binding */ checkCounterValue),
+/* harmony export */   "maxAmountOfQuestions": () => (/* binding */ maxAmountOfQuestions),
+/* harmony export */   "maxPossibleAnswers": () => (/* binding */ maxPossibleAnswers),
+/* harmony export */   "quizSettings": () => (/* binding */ quizSettings),
+/* harmony export */   "updateCounter": () => (/* binding */ updateCounter),
+/* harmony export */   "updateToggle": () => (/* binding */ updateToggle)
 /* harmony export */ });
 /* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./constants */ "./src/javascript/constants.js");
 
+var maxAmountOfQuestions = 20;
+var maxPossibleAnswers = 6;
 
 // Quiz settings object
 var quizSettings = {
@@ -482,6 +507,33 @@ var quizSettings = {
   tipsOn: _constants__WEBPACK_IMPORTED_MODULE_0__.tipsAllowed.innerText === "Off" ? false : true,
   timelimitOn: _constants__WEBPACK_IMPORTED_MODULE_0__.timelimitActivated.innerText === "Off" ? false : true,
   difficulty: "Easy"
+};
+var updateCounter = function updateCounter(event, counterMax) {
+  var settingValue = event.target.parentElement.children[1];
+  var settingBtn = event.target;
+  if (settingBtn.getAttribute("data-action") === "higher") {
+    settingValue.innerText = checkCounterValue(Number(settingValue.innerText), counterMax) + 1;
+  }
+  if (settingBtn.getAttribute("data-action") === "lower") {
+    settingValue.innerText = checkCounterValue(Number(settingValue.innerText), counterMax) - 1;
+  }
+};
+var updateToggle = function updateToggle(event) {
+  var toggleValue = event.target.parentElement.children[1];
+  if (toggleValue.innerText === "off") {
+    toggleValue.innerText = "on";
+  } else {
+    toggleValue.innerText = "off";
+  }
+};
+var checkCounterValue = function checkCounterValue(currentValue, maxValue) {
+  if (currentValue == maxValue) {
+    return currentValue - 1;
+  }
+  if (currentValue == 1) {
+    return currentValue + 1;
+  }
+  return currentValue;
 };
 
 /***/ }),

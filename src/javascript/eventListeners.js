@@ -2,10 +2,11 @@ import * as CONSTS from "./constants";
 import * as GLOBALS from "./globals";
 import { submitQuiz } from "./submitQuiz";
 import { changeScreen } from "./screenNav";
+import { updateCounter, updateToggle, maxAmountOfQuestions, maxPossibleAnswers } from "./settings";
 import { displayQuestion, highlightSelectedAnswer } from "./renderQuestion";
 
 export const initEvents = () => {
-    // Button Actions
+    // Button actions
     CONSTS.backBtns.map((btn) => {
         btn.addEventListener("click", () => {
             changeScreen(CONSTS.startScreen);
@@ -22,6 +23,23 @@ export const initEvents = () => {
 
     CONSTS.quitBtn.addEventListener("click", () => {
         window.close();
+    });
+
+    // Quiz settings counter buttons
+    CONSTS.amountOfQuestions.addEventListener("click", (e) => {
+        updateCounter(e, maxAmountOfQuestions);
+    });
+
+    CONSTS.possibleAnswers.addEventListener("click", (e) => {
+        updateCounter(e, maxPossibleAnswers);
+    });
+
+    CONSTS.tipsAllowed.addEventListener("click", (e) => {
+        updateToggle(e);
+    });
+
+    CONSTS.timelimitActivated.addEventListener("click", (e) => {
+        updateToggle(e);
     });
 
     // Quiz submit logic

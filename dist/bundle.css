@@ -279,6 +279,9 @@ p {
 }
 
 .back-btn {
+  position: fixed;
+  bottom: 1rem;
+  right: 2rem;
   display: flex;
   align-items: center;
   gap: 0.75rem;
@@ -401,11 +404,6 @@ p {
   justify-content: center;
   gap: 1rem;
 }
-.question .back-btn {
-  position: fixed;
-  bottom: 1rem;
-  right: 2rem;
-}
 
 .settings {
   display: flex;
@@ -436,6 +434,11 @@ p {
 .settings__difficulty-btns {
   display: flex;
   align-items: center;
+  gap: 1.5rem;
+}
+.settings__controls {
+  display: flex;
+  justify-content: flex-end;
   gap: 1.5rem;
 }
 

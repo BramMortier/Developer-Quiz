@@ -19,6 +19,7 @@ export const amountOfQuestions = document.getElementById("amount-of-questions");
 export const possibleAnswers = document.getElementById("possible-answers");
 export const tipsAllowed = document.getElementById("tips-allowed");
 export const timelimitActivated = document.getElementById("timelimit-activated");
+export const applySettingsBtn = document.getElementById("apply-settings");
 
 // Submit Screen Elements
 export const submitQuizBtn = document.getElementById("submit-quiz-btn");

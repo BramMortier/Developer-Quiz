@@ -10,3 +10,15 @@
 -   Quiz API (https://quizapi.io/);
 
 ## How do you run the project?
+
+first step is to install the node_modules with
+
+> $ npm install
+
+to quickly build to project run
+
+> $ npm run build
+
+if you want the optimized build for production run
+
+> $ npm run build-production
