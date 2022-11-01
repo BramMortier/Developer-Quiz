@@ -1,9 +1,12 @@
+// ------------------------------------------- //
+// module imports
 import * as CONSTS from "./constants";
 import * as GLOBALS from "./globals";
 import { submitQuiz } from "./submitQuiz";
 import { changeScreen } from "./screenNav";
-import { updateCounter, updateToggle, maxAmountOfQuestions, maxPossibleAnswers } from "./settings";
+import { updateCounter, updateToggle, maxAmountOfQuestions, maxPossibleAnswers, generateQuizSettings, resetQuizSettings } from "./settings";
 import { displayQuestion, highlightSelectedAnswer } from "./renderQuestion";
+// ------------------------------------------- //
 
 export const initEvents = () => {
     // Button actions
@@ -40,6 +43,15 @@ export const initEvents = () => {
 
     CONSTS.timelimitActivated.addEventListener("click", (e) => {
         updateToggle(e);
+    });
+
+    // Quiz settings control buttons
+    CONSTS.applySettingsBtn.addEventListener("click", () => {
+        GLOBALS.setQuizSettings(generateQuizSettings());
+    });
+
+    CONSTS.resetSettingsBtn.addEventListener("click", () => {
+        resetQuizSettings();
     });
 
     // Quiz submit logic

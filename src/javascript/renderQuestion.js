@@ -1,6 +1,9 @@
+// ------------------------------------------- //
+// module imports
 import * as CONSTS from "./constants";
 import * as GLOBALS from "./globals";
 import { findCorrectAnswerIndex } from "./helperFunctions";
+// ------------------------------------------- //
 
 // Display current question
 export const highlightSelectedAnswer = (questionIndex) => {

@@ -1,4 +1,7 @@
+// ------------------------------------------- //
+// module imports
 import * as CONSTS from "./constants";
+// ------------------------------------------- //
 
 // Circle graph logic
 const getScoreGrade = (progress) => {

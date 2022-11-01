@@ -1,15 +1,37 @@
+// ------------------------------------------- //
+// module imports
 import * as CONSTS from "./constants";
+// ------------------------------------------- //
 
 export let maxAmountOfQuestions = 20;
 export let maxPossibleAnswers = 6;
 
 // Quiz settings object
-export let quizSettings = {
-    amountOfQuestions: Number(CONSTS.amountOfQuestions.innerText),
-    possibleAnswers: Number(CONSTS.possibleAnswers.innerText),
-    tipsOn: CONSTS.tipsAllowed.innerText === "Off" ? false : true,
-    timelimitOn: CONSTS.timelimitActivated.innerText === "Off" ? false : true,
-    difficulty: "Easy",
+export const generateQuizSettings = () => {
+    return {
+        amountOfQuestions: Number(CONSTS.amountOfQuestions.children[1].innerText),
+        possibleAnswers: Number(CONSTS.possibleAnswers.children[1].innerText),
+        tipsOn: CONSTS.tipsAllowed.children[1].innerText === "Off" ? false : true,
+        timelimitOn: CONSTS.timelimitActivated.children[1].innerText === "Off" ? false : true,
+        difficulty: "Easy",
+    };
+};
+
+export const resetQuizSettings = () => {
+    CONSTS.amountOfQuestions.children[1].innerText = 10;
+    CONSTS.possibleAnswers.children[1].innerText = 4;
+    CONSTS.tipsAllowed.children[1].innerText = "off";
+    CONSTS.timelimitActivated.children[1].innerText = "off";
+};
+
+export const checkCounterValue = (currentValue, maxValue) => {
+    if (currentValue == maxValue) {
+        return currentValue - 1;
+    }
+    if (currentValue == 1) {
+        return currentValue + 1;
+    }
+    return currentValue;
 };
 
 export const updateCounter = (event, counterMax) => {
@@ -33,14 +55,4 @@ export const updateToggle = (event) => {
     } else {
         toggleValue.innerText = "off";
     }
-};
-
-export const checkCounterValue = (currentValue, maxValue) => {
-    if (currentValue == maxValue) {
-        return currentValue - 1;
-    }
-    if (currentValue == 1) {
-        return currentValue + 1;
-    }
-    return currentValue;
 };

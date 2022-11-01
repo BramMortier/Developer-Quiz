@@ -1,7 +1,10 @@
+// ------------------------------------------- //
+// module imports
 import * as CONSTS from "./constants";
 import * as GLOBALS from "./globals";
 import { initCircleGraph } from "./circleGraph";
 import { trimString, compareAnswer, findCorrectAnswerIndex } from "./helperFunctions";
+// ------------------------------------------- //
 
 export const submitQuiz = (answers, questions) => {
     CONSTS.questionComparisonList.innerHTML = "";
@@ -13,20 +16,21 @@ export const submitQuiz = (answers, questions) => {
         }
     });
 
-    CONSTS.resultElements.map((el) => {
-        let resultType = el.childNodes[1].innerText.slice(0, -1).toLowerCase();
-        let resultValue = el.childNodes[3];
+    let scoreToPercentage = Math.round((GLOBALS.getQuizScore() / GLOBALS.getQuizSettings().amountOfQuestions) * 100);
 
-        if (resultType === "score") resultValue.innerText = `${(GLOBALS.getQuizScore() / GLOBALS.getQuizSettings().amountOfQuestions) * 100}%`;
+    CONSTS.resultElements.map((el) => {
+        let resultType = el.children[0].innerText.slice(0, -1).toLowerCase();
+        let resultValue = el.children[1];
+
+        if (resultType === "score") resultValue.innerText = `${scoreToPercentage}%`;
         if (resultType === "total questions") resultValue.innerText = GLOBALS.getQuizSettings().amountOfQuestions;
         if (resultType === "answered correct") resultValue.innerText = GLOBALS.getQuizScore();
         if (resultType === "topic") resultValue.innerText = "Random";
         if (resultType === "difficulty") resultValue.innerText = GLOBALS.getQuizSettings().difficulty;
-        if (resultType === "final")
-            resultValue.innerText = (GLOBALS.getQuizScore() / GLOBALS.getQuizSettings().amountOfQuestions) * 100 >= 50 ? "Pass" : "Fail";
+        if (resultType === "final") resultValue.innerText = scoreToPercentage >= 50 ? "Pass" : "Fail";
     });
 
-    initCircleGraph((GLOBALS.getQuizScore() / GLOBALS.getQuizSettings().amountOfQuestions) * 100);
+    initCircleGraph(scoreToPercentage);
 
     questions.map((question, index) => {
         let answerCorrect = compareAnswer(answers[index]);

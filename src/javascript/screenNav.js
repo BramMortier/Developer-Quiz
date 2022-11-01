@@ -1,4 +1,7 @@
+// ------------------------------------------- //
+// module imports
 import * as CONSTS from "./constants";
+// ------------------------------------------- //
 
 // Screen navigation logic
 export const changeScreen = (destinationScreen) => {

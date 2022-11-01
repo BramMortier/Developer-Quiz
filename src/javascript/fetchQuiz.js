@@ -1,4 +1,7 @@
+// ------------------------------------------- //
+// module imports
 import * as GLOBALS from "./globals";
+// ------------------------------------------- //
 
 // Fetching data
 export const fetchQuiz = async () => {

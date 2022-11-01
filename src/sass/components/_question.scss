@@ -9,8 +9,10 @@
 
     &__numbers {
         display: flex;
+        flex-wrap: wrap;
         align-items: center;
         gap: 1rem;
+        max-width: 65%;
         margin-bottom: 3.75rem;
     }
 

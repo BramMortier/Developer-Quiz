@@ -8,7 +8,7 @@ import * as GLOBALS from "./globals";
 import { displayQuestion } from "./renderQuestion";
 import { changeScreen } from "./screenNav";
 import { fetchQuiz } from "./fetchQuiz";
-import { quizSettings } from "./settings";
+import { generateQuizSettings } from "./settings";
 import { initEvents } from "./eventListeners";
 // ------------------------------------------- //
 
@@ -25,7 +25,7 @@ CONSTS.startBtn.addEventListener("click", () => {
 
 // Quiz init
 const startNewQuiz = async () => {
-    GLOBALS.setQuizSettings(quizSettings);
+    GLOBALS.setQuizSettings(generateQuizSettings());
     GLOBALS.setQuizData(await fetchQuiz());
     GLOBALS.createAnswerStorage(GLOBALS.getQuizData());
     GLOBALS.setQuestionIndex(1);
