@@ -17,27 +17,17 @@ window.onload = () => {
     initEvents();
 };
 
+// Start event
 CONSTS.startBtn.addEventListener("click", () => {
-    changeScreen(CONSTS.questionScreen);
     startNewQuiz();
+    changeScreen(CONSTS.questionScreen);
 });
-
-// Quiz answer storage
-const createAnswerStorage = (data) => {
-    let answerStorageBase = data.map((answer, index) => {
-        return {
-            selectedAnswer: -1,
-            correctAnswer: -1,
-        };
-    });
-    GLOBALS.setAnswerStorage(answerStorageBase);
-};
 
 // Quiz init
 const startNewQuiz = async () => {
     GLOBALS.setQuizSettings(quizSettings);
     GLOBALS.setQuizData(await fetchQuiz());
-    createAnswerStorage(GLOBALS.getQuizData());
+    GLOBALS.createAnswerStorage(GLOBALS.getQuizData());
     GLOBALS.setQuestionIndex(1);
     displayQuestion(GLOBALS.getQuizData());
 };

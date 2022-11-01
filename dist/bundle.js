@@ -240,6 +240,7 @@ var fetchQuiz = /*#__PURE__*/function () {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "createAnswerStorage": () => (/* binding */ createAnswerStorage),
 /* harmony export */   "getAnswerStorage": () => (/* binding */ getAnswerStorage),
 /* harmony export */   "getQuestionIndex": () => (/* binding */ getQuestionIndex),
 /* harmony export */   "getQuizData": () => (/* binding */ getQuizData),
@@ -250,7 +251,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "setQuestionIndex": () => (/* binding */ setQuestionIndex),
 /* harmony export */   "setQuizData": () => (/* binding */ setQuizData),
 /* harmony export */   "setQuizScore": () => (/* binding */ setQuizScore),
-/* harmony export */   "setQuizSettings": () => (/* binding */ setQuizSettings)
+/* harmony export */   "setQuizSettings": () => (/* binding */ setQuizSettings),
+/* harmony export */   "updateAnswerStorage": () => (/* binding */ updateAnswerStorage)
 /* harmony export */ });
 var initSessionStorage = function initSessionStorage() {
   if (!sessionStorage.getItem("quizData")) {
@@ -275,6 +277,23 @@ var getQuizData = function getQuizData() {
 };
 
 // AnswerStorage get & set
+var createAnswerStorage = function createAnswerStorage(data) {
+  var answerStorageBase = data.map(function (answer, index) {
+    return {
+      selectedAnswer: -1,
+      correctAnswer: -1
+    };
+  });
+  setAnswerStorage(answerStorageBase);
+};
+var updateAnswerStorage = function updateAnswerStorage(questionIndex, selectedAnswer, correctAnswer) {
+  var answerStorageCurrent = getAnswerStorage();
+  answerStorageCurrent[questionIndex - 1] = {
+    selectedAnswer: selectedAnswer,
+    correctAnswer: correctAnswer
+  };
+  setAnswerStorage(answerStorageCurrent);
+};
 var setAnswerStorage = function setAnswerStorage(data) {
   sessionStorage.setItem("answerStorage", JSON.stringify(data));
 };
@@ -353,8 +372,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "displayQuestion": () => (/* binding */ displayQuestion),
 /* harmony export */   "highlightSelectedAnswer": () => (/* binding */ highlightSelectedAnswer),
-/* harmony export */   "renderQuestionNavigation": () => (/* binding */ renderQuestionNavigation),
-/* harmony export */   "updateAnswerStorage": () => (/* binding */ updateAnswerStorage)
+/* harmony export */   "renderQuestionNavigation": () => (/* binding */ renderQuestionNavigation)
 /* harmony export */ });
 /* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./constants */ "./src/javascript/constants.js");
 /* harmony import */ var _globals__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./globals */ "./src/javascript/globals.js");
@@ -396,14 +414,6 @@ var renderQuestionNavigation = function renderQuestionNavigation(questions) {
     _constants__WEBPACK_IMPORTED_MODULE_0__.questionNav.appendChild(questionNumberEl);
   });
 };
-var updateAnswerStorage = function updateAnswerStorage(questionIndex, selectedAnswer, correctAnswer) {
-  var answerStorageCurrent = _globals__WEBPACK_IMPORTED_MODULE_1__.getAnswerStorage();
-  answerStorageCurrent[questionIndex - 1] = {
-    selectedAnswer: selectedAnswer,
-    correctAnswer: correctAnswer
-  };
-  _globals__WEBPACK_IMPORTED_MODULE_1__.setAnswerStorage(answerStorageCurrent);
-};
 var displayQuestion = function displayQuestion(data) {
   renderQuestionNavigation(data);
   var currentQuestion = data[_globals__WEBPACK_IMPORTED_MODULE_1__.getQuestionIndex() - 1];
@@ -418,7 +428,7 @@ var displayQuestion = function displayQuestion(data) {
       answerEl.innerHTML = "<p>".concat(answer.replace("<", "&lt;"), "</p>");
       _constants__WEBPACK_IMPORTED_MODULE_0__.answerList.appendChild(answerEl);
       answerEl.addEventListener("click", function () {
-        updateAnswerStorage(_globals__WEBPACK_IMPORTED_MODULE_1__.getQuestionIndex(), index, correctAnswer);
+        _globals__WEBPACK_IMPORTED_MODULE_1__.updateAnswerStorage(_globals__WEBPACK_IMPORTED_MODULE_1__.getQuestionIndex(), index, correctAnswer);
         highlightSelectedAnswer(_globals__WEBPACK_IMPORTED_MODULE_1__.getQuestionIndex());
       });
     }
@@ -634,21 +644,12 @@ window.onload = function () {
   _globals__WEBPACK_IMPORTED_MODULE_2__.initSessionStorage();
   (0,_eventListeners__WEBPACK_IMPORTED_MODULE_7__.initEvents)();
 };
-_constants__WEBPACK_IMPORTED_MODULE_1__.startBtn.addEventListener("click", function () {
-  (0,_screenNav__WEBPACK_IMPORTED_MODULE_4__.changeScreen)(_constants__WEBPACK_IMPORTED_MODULE_1__.questionScreen);
-  startNewQuiz();
-});
 
-// Quiz answer storage
-var createAnswerStorage = function createAnswerStorage(data) {
-  var answerStorageBase = data.map(function (answer, index) {
-    return {
-      selectedAnswer: -1,
-      correctAnswer: -1
-    };
-  });
-  _globals__WEBPACK_IMPORTED_MODULE_2__.setAnswerStorage(answerStorageBase);
-};
+// Start event
+_constants__WEBPACK_IMPORTED_MODULE_1__.startBtn.addEventListener("click", function () {
+  startNewQuiz();
+  (0,_screenNav__WEBPACK_IMPORTED_MODULE_4__.changeScreen)(_constants__WEBPACK_IMPORTED_MODULE_1__.questionScreen);
+});
 
 // Quiz init
 var startNewQuiz = /*#__PURE__*/function () {
@@ -664,7 +665,7 @@ var startNewQuiz = /*#__PURE__*/function () {
           case 4:
             _context.t1 = _context.sent;
             _context.t0.setQuizData.call(_context.t0, _context.t1);
-            createAnswerStorage(_globals__WEBPACK_IMPORTED_MODULE_2__.getQuizData());
+            _globals__WEBPACK_IMPORTED_MODULE_2__.createAnswerStorage(_globals__WEBPACK_IMPORTED_MODULE_2__.getQuizData());
             _globals__WEBPACK_IMPORTED_MODULE_2__.setQuestionIndex(1);
             (0,_renderQuestion__WEBPACK_IMPORTED_MODULE_3__.displayQuestion)(_globals__WEBPACK_IMPORTED_MODULE_2__.getQuizData());
           case 9:

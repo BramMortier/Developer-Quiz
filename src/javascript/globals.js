@@ -22,6 +22,25 @@ export const getQuizData = () => {
 };
 
 // AnswerStorage get & set
+export const createAnswerStorage = (data) => {
+    let answerStorageBase = data.map((answer, index) => {
+        return {
+            selectedAnswer: -1,
+            correctAnswer: -1,
+        };
+    });
+    setAnswerStorage(answerStorageBase);
+};
+
+export const updateAnswerStorage = (questionIndex, selectedAnswer, correctAnswer) => {
+    let answerStorageCurrent = getAnswerStorage();
+    answerStorageCurrent[questionIndex - 1] = {
+        selectedAnswer: selectedAnswer,
+        correctAnswer: correctAnswer,
+    };
+    setAnswerStorage(answerStorageCurrent);
+};
+
 export const setAnswerStorage = (data) => {
     sessionStorage.setItem("answerStorage", JSON.stringify(data));
 };

@@ -36,15 +36,6 @@ export const renderQuestionNavigation = (questions) => {
     });
 };
 
-export const updateAnswerStorage = (questionIndex, selectedAnswer, correctAnswer) => {
-    let answerStorageCurrent = GLOBALS.getAnswerStorage();
-    answerStorageCurrent[questionIndex - 1] = {
-        selectedAnswer: selectedAnswer,
-        correctAnswer: correctAnswer,
-    };
-    GLOBALS.setAnswerStorage(answerStorageCurrent);
-};
-
 export const displayQuestion = (data) => {
     renderQuestionNavigation(data);
 
@@ -65,7 +56,7 @@ export const displayQuestion = (data) => {
             CONSTS.answerList.appendChild(answerEl);
 
             answerEl.addEventListener("click", () => {
-                updateAnswerStorage(GLOBALS.getQuestionIndex(), index, correctAnswer);
+                GLOBALS.updateAnswerStorage(GLOBALS.getQuestionIndex(), index, correctAnswer);
                 highlightSelectedAnswer(GLOBALS.getQuestionIndex());
             });
         }
