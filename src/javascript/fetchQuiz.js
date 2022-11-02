@@ -11,7 +11,7 @@ export const fetchQuiz = async () => {
         apiKey: "Yk930yLz3W65YXkbfkG5Cu1E3Aduuk2LqfAsO1k1",
         limit: GLOBALS.getQuizSettings().amountOfQuestions,
         difficulty: GLOBALS.getQuizSettings().difficulty,
-        tags: "PHP",
+        tags: GLOBALS.getQuizSettings().tags,
     };
 
     url.search = new URLSearchParams(params).toString();

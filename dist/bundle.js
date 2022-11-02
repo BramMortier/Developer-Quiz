@@ -272,7 +272,7 @@ var fetchQuiz = /*#__PURE__*/function () {
               apiKey: "Yk930yLz3W65YXkbfkG5Cu1E3Aduuk2LqfAsO1k1",
               limit: _globals__WEBPACK_IMPORTED_MODULE_0__.getQuizSettings().amountOfQuestions,
               difficulty: _globals__WEBPACK_IMPORTED_MODULE_0__.getQuizSettings().difficulty,
-              tags: "PHP"
+              tags: _globals__WEBPACK_IMPORTED_MODULE_0__.getQuizSettings().tags
             };
             url.search = new URLSearchParams(params).toString();
             _context.next = 5;
@@ -550,10 +550,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "resetQuizSettings": () => (/* binding */ resetQuizSettings),
 /* harmony export */   "updateCounter": () => (/* binding */ updateCounter),
 /* harmony export */   "updateDifficulty": () => (/* binding */ updateDifficulty),
+/* harmony export */   "updateSelectedTags": () => (/* binding */ updateSelectedTags),
 /* harmony export */   "updateTagResults": () => (/* binding */ updateTagResults),
 /* harmony export */   "updateToggle": () => (/* binding */ updateToggle)
 /* harmony export */ });
 /* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./constants */ "./src/javascript/constants.js");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 // ------------------------------------------- //
 // module imports
 
@@ -562,6 +569,7 @@ __webpack_require__.r(__webpack_exports__);
 var maxAmountOfQuestions = 20;
 var maxPossibleAnswers = 6;
 var difficulty = "Easy";
+var selectedTags = "";
 
 // Quiz settings object
 var generateQuizSettings = function generateQuizSettings() {
@@ -570,7 +578,8 @@ var generateQuizSettings = function generateQuizSettings() {
     possibleAnswers: Number(_constants__WEBPACK_IMPORTED_MODULE_0__.possibleAnswers.children[1].innerText),
     tipsOn: _constants__WEBPACK_IMPORTED_MODULE_0__.tipsAllowed.children[1].innerText === "Off" ? false : true,
     timelimitOn: _constants__WEBPACK_IMPORTED_MODULE_0__.timelimitActivated.children[1].innerText === "Off" ? false : true,
-    difficulty: difficulty
+    difficulty: difficulty,
+    tags: selectedTags
   };
 };
 var resetQuizSettings = function resetQuizSettings() {
@@ -637,7 +646,22 @@ var updateTagResults = function updateTagResults() {
   return isResult;
 };
 var addTag = function addTag(tag) {
-  console.log(tag);
+  _constants__WEBPACK_IMPORTED_MODULE_0__.tagResults.style.display = "none";
+  _constants__WEBPACK_IMPORTED_MODULE_0__.tagSearchbar.value = "";
+  var selectedTagEl = document.createElement("div");
+  selectedTagEl.classList.add("settings__selected-tag");
+  selectedTagEl.innerHTML = "\n        <p>".concat(tag, "</p>\n        <img src=\"./src/images/icons/wrong.svg\" alt=\"delete\" />\n    ");
+  _constants__WEBPACK_IMPORTED_MODULE_0__.selectedTags.appendChild(selectedTagEl);
+  updateSelectedTags();
+};
+var updateSelectedTags = function updateSelectedTags() {
+  var selectedTagsElArray = _toConsumableArray(document.querySelectorAll(".settings__selected-tag"));
+  selectedTags = selectedTagsElArray.map(function (tag) {
+    tag.children[1].addEventListener("click", function () {
+      _constants__WEBPACK_IMPORTED_MODULE_0__.selectedTags.removeChild(tag);
+    });
+    return tag.children[0].innerText;
+  });
 };
 
 /***/ }),

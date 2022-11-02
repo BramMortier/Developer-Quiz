@@ -6,6 +6,7 @@ import * as CONSTS from "./constants";
 export let maxAmountOfQuestions = 20;
 export let maxPossibleAnswers = 6;
 let difficulty = "Easy";
+let selectedTags = "";
 
 // Quiz settings object
 export const generateQuizSettings = () => {
@@ -15,6 +16,7 @@ export const generateQuizSettings = () => {
         tipsOn: CONSTS.tipsAllowed.children[1].innerText === "Off" ? false : true,
         timelimitOn: CONSTS.timelimitActivated.children[1].innerText === "Off" ? false : true,
         difficulty: difficulty,
+        tags: selectedTags,
     };
 };
 
@@ -98,5 +100,27 @@ export const updateTagResults = () => {
 };
 
 export const addTag = (tag) => {
-    console.log(tag);
+    CONSTS.tagResults.style.display = "none";
+    CONSTS.tagSearchbar.value = "";
+
+    let selectedTagEl = document.createElement("div");
+    selectedTagEl.classList.add("settings__selected-tag");
+    selectedTagEl.innerHTML = `
+        <p>${tag}</p>
+        <img src="./src/images/icons/wrong.svg" alt="delete" />
+    `;
+    CONSTS.selectedTags.appendChild(selectedTagEl);
+
+    updateSelectedTags();
+};
+
+export const updateSelectedTags = () => {
+    let selectedTagsElArray = [...document.querySelectorAll(".settings__selected-tag")];
+
+    selectedTags = selectedTagsElArray.map((tag) => {
+        tag.children[1].addEventListener("click", () => {
+            CONSTS.selectedTags.removeChild(tag);
+        });
+        return tag.children[0].innerText;
+    });
 };
