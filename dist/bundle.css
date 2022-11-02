@@ -213,11 +213,11 @@ p {
 }
 .btn--small {
   font-size: var(--xxsmall);
-  padding: 0.3rem 4rem;
+  padding: 0.4rem 4rem;
 }
 @media (max-width: 768px) {
   .btn--small {
-    padding: 0.3rem 2.25rem;
+    padding: 0.4rem 2.25rem;
   }
 }
 
@@ -518,6 +518,9 @@ p {
   display: flex;
   align-items: center;
   gap: 1.5rem;
+  border-bottom: 2px solid var(--secondary);
+  padding-bottom: 1.5rem;
+  margin-bottom: 1.5rem;
 }
 @media (max-width: 768px) {
   .settings__difficulty-btns {
@@ -530,6 +533,74 @@ p {
   .settings__difficulty-btns button {
     width: 100%;
   }
+}
+.settings__tags-search-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+.settings__tags-search-form input {
+  padding-left: 0.5rem;
+  width: 50%;
+  background-color: var(--dark-gray);
+  border: none;
+  outline: none;
+  font-size: var(--fs-small);
+  color: var(--secondary);
+  font-family: var(--paragraph-font);
+}
+.settings__tags-search-form input::placeholder {
+  font-weight: bold;
+}
+.settings__input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background-color: var(--dark-gray);
+  padding: 0.5rem;
+}
+.settings__selected-tags {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  justify-content: flex-end;
+  width: 50%;
+  flex-wrap: wrap;
+}
+.settings__selected-tag {
+  display: flex;
+  align-items: center;
+  background-color: var(--accent);
+  color: var(--dark-gray);
+  font-size: var(--fs-small);
+  gap: 1rem;
+  padding: 0 0.75rem;
+  transition: all ease 0.3s;
+}
+.settings__selected-tag:hover {
+  cursor: pointer;
+  opacity: 0.5;
+}
+.settings__selected-tag img {
+  width: 12px;
+  height: 12px;
+}
+.settings__tag-results {
+  position: absolute;
+  background-color: var(--dark-gray);
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+}
+.settings__tag-result {
+  font-size: var(--fs-small);
+  padding: 0.25rem 1.5rem 0.25rem 0.75rem;
+}
+.settings__tag-result:hover {
+  background-color: var(--primary);
+  cursor: pointer;
 }
 .settings__controls {
   display: flex;

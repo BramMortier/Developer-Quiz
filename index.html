@@ -80,6 +80,31 @@
                             <button class="settings__difficuly-btn btn btn--secondary btn--small">Hard</button>
                         </div>
                     </div>
+
+                    <div class="settings__tags">
+                        <form class="settings__tags-search-form">
+                            <label class="p" for="tags">Tags</label>
+                            <div class="settings__input-container">
+                                <input type="text" name="tags" value="" placeholder="Search for tags" />
+                                <div class="settings__selected-tags">
+                                    <div class="settings__selected-tag">
+                                        <p>PHP</p>
+                                        <img src="./src/images/icons/wrong.svg" alt="delete" />
+                                    </div>
+                                    <div class="settings__selected-tag">
+                                        <p>Javascript</p>
+                                        <img src="./src/images/icons/wrong.svg" alt="delete" />
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="settings__tag-results">
+                            <div class="settings__tag-result">PHP</div>
+                            <div class="settings__tag-result">Kubernetes</div>
+                            <div class="settings__tag-result">HTML</div>
+                            <div class="settings__tag-result">Javascript</div>
+                        </div>
+                    </div>
                 </div>
                 <div class="settings__controls">
                     <button id="reset-settings" class="btn btn--secondary btn--small">Reset</button>

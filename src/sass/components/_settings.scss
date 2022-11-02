@@ -54,6 +54,9 @@
         display: flex;
         align-items: center;
         gap: 1.5rem;
+        border-bottom: 2px solid var(--secondary);
+        padding-bottom: 1.5rem;
+        margin-bottom: 1.5rem;
 
         @include breakpoint(tablet) {
             flex-direction: column;
@@ -65,6 +68,85 @@
             @include breakpoint(tablet) {
                 width: 100%;
             }
+        }
+    }
+
+    &__tags-search-form {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        margin-bottom: 0.5rem;
+
+        input {
+            padding-left: 0.5rem;
+            width: 50%;
+            background-color: var(--dark-gray);
+            border: none;
+            outline: none;
+            font-size: var(--fs-small);
+            color: var(--secondary);
+            font-family: var(--paragraph-font);
+
+            &::placeholder {
+                font-weight: bold;
+            }
+        }
+    }
+
+    &__input-container {
+        position: relative;
+        display: flex;
+        align-items: center;
+        background-color: var(--dark-gray);
+        padding: 0.5rem;
+    }
+
+    &__selected-tags {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        justify-content: flex-end;
+        width: 50%;
+        flex-wrap: wrap;
+    }
+
+    &__selected-tag {
+        display: flex;
+        align-items: center;
+        background-color: var(--accent);
+        color: var(--dark-gray);
+        font-size: var(--fs-small);
+        gap: 1rem;
+        padding: 0 0.75rem;
+        transition: all ease 0.3s;
+
+        &:hover {
+            cursor: pointer;
+            opacity: 0.5;
+        }
+
+        img {
+            width: 12px;
+            height: 12px;
+        }
+    }
+
+    &__tag-results {
+        position: absolute;
+        background-color: var(--dark-gray);
+        padding: 0.5rem;
+        display: flex;
+        flex-direction: column;
+        width: fit-content;
+    }
+
+    &__tag-result {
+        font-size: var(--fs-small);
+        padding: 0.25rem 1.5rem 0.25rem 0.75rem;
+
+        &:hover {
+            background-color: var(--primary);
+            cursor: pointer;
         }
     }
 
