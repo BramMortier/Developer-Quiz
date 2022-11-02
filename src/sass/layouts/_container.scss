@@ -1,8 +1,14 @@
+@use "../abstracts" as *;
+
 .container {
     margin: 0 auto;
     max-width: 50rem;
     width: 100%;
     padding: 3.125rem 2rem;
+
+    @include breakpoint(tablet) {
+        padding: 2rem 1rem;
+    }
 
     &--inactive {
         display: none;

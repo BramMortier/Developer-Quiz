@@ -1,5 +1,7 @@
 # Welcome to my Quiz App
 
+![](./design/Startscreen%402x.png);
+
 ## Technologies used in this project:
 
 -   HTML & SCSS

@@ -10,6 +10,11 @@
     font-size: var(--fs-medium);
     transition: ease all 0.4s;
 
+    @include breakpoint(tablet) {
+        padding: 0.4rem 5rem;
+        font-size: var(--fs-small);
+    }
+
     &--primary {
         background-color: transparent;
         color: var(--primary);
@@ -75,6 +80,10 @@
     &--small {
         font-size: var(--xxsmall);
         padding: 0.3rem 4rem;
+
+        @include breakpoint(tablet) {
+            padding: 0.3rem 2.25rem;
+        }
     }
 }
 
@@ -172,6 +181,10 @@
     background-color: transparent;
     outline: none;
     border: none;
+
+    @include breakpoint(tablet) {
+        right: 1rem;
+    }
 
     img {
         height: 1.25rem;

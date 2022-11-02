@@ -17,7 +17,11 @@ h6 {
 
 .h1,
 h1 {
-    font-size: var(--fs-xlarge);
+    font-size: var(--fs-xxlarge);
+
+    @include breakpoint(tablet) {
+        font-size: var(--fs-xlarge);
+    }
 }
 
 .h2,
