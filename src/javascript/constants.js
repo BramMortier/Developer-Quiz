@@ -21,6 +21,12 @@ export const tipsAllowed = document.getElementById("tips-allowed");
 export const timelimitActivated = document.getElementById("timelimit-activated");
 export const difficultyBtns = [...document.querySelectorAll(".settings__difficuly-btn")];
 
+export const tagSearchbar = document.getElementById("tag-searchbar");
+export const tagResults = document.getElementById("tag-results");
+export const selectedTags = document.getElementById("selected-tags");
+
+export const tags = ["Javascript", "PHP", "Bash", "HTML", "Linux"];
+
 export const applySettingsBtn = document.getElementById("apply-settings");
 export const resetSettingsBtn = document.getElementById("reset-settings");
 

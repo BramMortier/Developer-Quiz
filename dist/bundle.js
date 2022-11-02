@@ -70,11 +70,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "resetSettingsBtn": () => (/* binding */ resetSettingsBtn),
 /* harmony export */   "resultElements": () => (/* binding */ resultElements),
 /* harmony export */   "resultScreen": () => (/* binding */ resultScreen),
+/* harmony export */   "selectedTags": () => (/* binding */ selectedTags),
 /* harmony export */   "settingsBtn": () => (/* binding */ settingsBtn),
 /* harmony export */   "settingsScreen": () => (/* binding */ settingsScreen),
 /* harmony export */   "startBtn": () => (/* binding */ startBtn),
 /* harmony export */   "startScreen": () => (/* binding */ startScreen),
 /* harmony export */   "submitQuizBtn": () => (/* binding */ submitQuizBtn),
+/* harmony export */   "tagResults": () => (/* binding */ tagResults),
+/* harmony export */   "tagSearchbar": () => (/* binding */ tagSearchbar),
+/* harmony export */   "tags": () => (/* binding */ tags),
 /* harmony export */   "timelimitActivated": () => (/* binding */ timelimitActivated),
 /* harmony export */   "tipsAllowed": () => (/* binding */ tipsAllowed)
 /* harmony export */ });
@@ -105,6 +109,10 @@ var possibleAnswers = document.getElementById("possible-answers");
 var tipsAllowed = document.getElementById("tips-allowed");
 var timelimitActivated = document.getElementById("timelimit-activated");
 var difficultyBtns = _toConsumableArray(document.querySelectorAll(".settings__difficuly-btn"));
+var tagSearchbar = document.getElementById("tag-searchbar");
+var tagResults = document.getElementById("tag-results");
+var selectedTags = document.getElementById("selected-tags");
+var tags = ["Javascript", "PHP", "Bash", "HTML", "Linux"];
 var applySettingsBtn = document.getElementById("apply-settings");
 var resetSettingsBtn = document.getElementById("reset-settings");
 
@@ -188,6 +196,16 @@ var initEvents = function initEvents() {
     btn.addEventListener("click", function (e) {
       (0,_settings__WEBPACK_IMPORTED_MODULE_4__.updateDifficulty)(e);
     });
+  });
+
+  // Quiz settings tag search change events
+  _constants__WEBPACK_IMPORTED_MODULE_0__.tagSearchbar.addEventListener("focus", function () {
+    if ((0,_settings__WEBPACK_IMPORTED_MODULE_4__.updateTagResults)()) {
+      _constants__WEBPACK_IMPORTED_MODULE_0__.tagResults.style.display = "flex";
+    }
+  });
+  _constants__WEBPACK_IMPORTED_MODULE_0__.tagSearchbar.addEventListener("input", function () {
+    _constants__WEBPACK_IMPORTED_MODULE_0__.tagResults.style.display = (0,_settings__WEBPACK_IMPORTED_MODULE_4__.updateTagResults)() ? "flex" : "none";
   });
 
   // Quiz settings control buttons
@@ -524,6 +542,7 @@ var changeScreen = function changeScreen(destinationScreen) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "addTag": () => (/* binding */ addTag),
 /* harmony export */   "checkCounterValue": () => (/* binding */ checkCounterValue),
 /* harmony export */   "generateQuizSettings": () => (/* binding */ generateQuizSettings),
 /* harmony export */   "maxAmountOfQuestions": () => (/* binding */ maxAmountOfQuestions),
@@ -531,6 +550,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "resetQuizSettings": () => (/* binding */ resetQuizSettings),
 /* harmony export */   "updateCounter": () => (/* binding */ updateCounter),
 /* harmony export */   "updateDifficulty": () => (/* binding */ updateDifficulty),
+/* harmony export */   "updateTagResults": () => (/* binding */ updateTagResults),
 /* harmony export */   "updateToggle": () => (/* binding */ updateToggle)
 /* harmony export */ });
 /* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./constants */ "./src/javascript/constants.js");
@@ -597,6 +617,27 @@ var updateDifficulty = function updateDifficulty(event) {
       btn.classList.add("btn--secondary");
     }
   });
+};
+var updateTagResults = function updateTagResults() {
+  var searchValue = _constants__WEBPACK_IMPORTED_MODULE_0__.tagSearchbar.value;
+  var isResult = false;
+  _constants__WEBPACK_IMPORTED_MODULE_0__.tagResults.innerHTML = "";
+  _constants__WEBPACK_IMPORTED_MODULE_0__.tags.map(function (tag) {
+    if (tag.toLowerCase().includes(searchValue.toLowerCase()) && searchValue !== "") {
+      var tagResultEl = document.createElement("div");
+      tagResultEl.classList.add("settings__tag-result");
+      tagResultEl.innerHTML = "".concat(tag);
+      tagResultEl.addEventListener("click", function () {
+        addTag(tag);
+      });
+      _constants__WEBPACK_IMPORTED_MODULE_0__.tagResults.appendChild(tagResultEl);
+      isResult = true;
+    }
+  });
+  return isResult;
+};
+var addTag = function addTag(tag) {
+  console.log(tag);
 };
 
 /***/ }),

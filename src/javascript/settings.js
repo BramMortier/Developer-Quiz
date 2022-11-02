@@ -72,3 +72,31 @@ export const updateDifficulty = (event) => {
         }
     });
 };
+
+export const updateTagResults = () => {
+    let searchValue = CONSTS.tagSearchbar.value;
+    let isResult = false;
+
+    CONSTS.tagResults.innerHTML = "";
+
+    CONSTS.tags.map((tag) => {
+        if (tag.toLowerCase().includes(searchValue.toLowerCase()) && searchValue !== "") {
+            let tagResultEl = document.createElement("div");
+            tagResultEl.classList.add("settings__tag-result");
+            tagResultEl.innerHTML = `${tag}`;
+
+            tagResultEl.addEventListener("click", () => {
+                addTag(tag);
+            });
+
+            CONSTS.tagResults.appendChild(tagResultEl);
+            isResult = true;
+        }
+    });
+
+    return isResult;
+};
+
+export const addTag = (tag) => {
+    console.log(tag);
+};

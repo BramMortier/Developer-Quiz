@@ -590,7 +590,7 @@ p {
   position: absolute;
   background-color: var(--dark-gray);
   padding: 0.5rem;
-  display: flex;
+  display: none;
   flex-direction: column;
   width: fit-content;
 }

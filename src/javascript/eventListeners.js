@@ -12,6 +12,7 @@ import {
     maxPossibleAnswers,
     generateQuizSettings,
     resetQuizSettings,
+    updateTagResults,
 } from "./settings";
 import { displayQuestion, highlightSelectedAnswer } from "./renderQuestion";
 // ------------------------------------------- //
@@ -58,6 +59,17 @@ export const initEvents = () => {
         btn.addEventListener("click", (e) => {
             updateDifficulty(e);
         });
+    });
+
+    // Quiz settings tag search change events
+    CONSTS.tagSearchbar.addEventListener("focus", () => {
+        if (updateTagResults()) {
+            CONSTS.tagResults.style.display = "flex";
+        }
+    });
+
+    CONSTS.tagSearchbar.addEventListener("input", () => {
+        CONSTS.tagResults.style.display = updateTagResults() ? "flex" : "none";
     });
 
     // Quiz settings control buttons
