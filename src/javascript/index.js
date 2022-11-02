@@ -14,6 +14,7 @@ import { initEvents } from "./eventListeners";
 
 window.onload = () => {
     GLOBALS.initSessionStorage();
+    GLOBALS.setQuizSettings(generateQuizSettings());
     initEvents();
 };
 

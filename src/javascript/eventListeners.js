@@ -4,7 +4,15 @@ import * as CONSTS from "./constants";
 import * as GLOBALS from "./globals";
 import { submitQuiz } from "./submitQuiz";
 import { changeScreen } from "./screenNav";
-import { updateCounter, updateToggle, maxAmountOfQuestions, maxPossibleAnswers, generateQuizSettings, resetQuizSettings } from "./settings";
+import {
+    updateCounter,
+    updateToggle,
+    updateDifficulty,
+    maxAmountOfQuestions,
+    maxPossibleAnswers,
+    generateQuizSettings,
+    resetQuizSettings,
+} from "./settings";
 import { displayQuestion, highlightSelectedAnswer } from "./renderQuestion";
 // ------------------------------------------- //
 
@@ -43,6 +51,13 @@ export const initEvents = () => {
 
     CONSTS.timelimitActivated.addEventListener("click", (e) => {
         updateToggle(e);
+    });
+
+    // Quiz settings difficulty buttons
+    CONSTS.difficultyBtns.map((btn) => {
+        btn.addEventListener("click", (e) => {
+            updateDifficulty(e);
+        });
     });
 
     // Quiz settings control buttons

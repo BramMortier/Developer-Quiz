@@ -5,6 +5,7 @@ import * as CONSTS from "./constants";
 
 export let maxAmountOfQuestions = 20;
 export let maxPossibleAnswers = 6;
+let difficulty = "Easy";
 
 // Quiz settings object
 export const generateQuizSettings = () => {
@@ -13,7 +14,7 @@ export const generateQuizSettings = () => {
         possibleAnswers: Number(CONSTS.possibleAnswers.children[1].innerText),
         tipsOn: CONSTS.tipsAllowed.children[1].innerText === "Off" ? false : true,
         timelimitOn: CONSTS.timelimitActivated.children[1].innerText === "Off" ? false : true,
-        difficulty: "Easy",
+        difficulty: difficulty,
     };
 };
 
@@ -55,4 +56,19 @@ export const updateToggle = (event) => {
     } else {
         toggleValue.innerText = "off";
     }
+};
+
+export const updateDifficulty = (event) => {
+    let targetBtn = event.target;
+    difficulty = targetBtn.innerText;
+
+    targetBtn.classList.remove("btn--secondary");
+    targetBtn.classList.add("btn--primary");
+
+    CONSTS.difficultyBtns.map((btn) => {
+        if (btn.innerText !== targetBtn.innerText) {
+            btn.classList.remove("btn--primary");
+            btn.classList.add("btn--secondary");
+        }
+    });
 };

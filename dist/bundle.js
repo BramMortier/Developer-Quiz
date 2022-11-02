@@ -53,6 +53,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "answerList": () => (/* binding */ answerList),
 /* harmony export */   "applySettingsBtn": () => (/* binding */ applySettingsBtn),
 /* harmony export */   "backBtns": () => (/* binding */ backBtns),
+/* harmony export */   "difficultyBtns": () => (/* binding */ difficultyBtns),
 /* harmony export */   "graphProgress": () => (/* binding */ graphProgress),
 /* harmony export */   "highscores": () => (/* binding */ highscores),
 /* harmony export */   "highscoresBtn": () => (/* binding */ highscoresBtn),
@@ -103,6 +104,7 @@ var amountOfQuestions = document.getElementById("amount-of-questions");
 var possibleAnswers = document.getElementById("possible-answers");
 var tipsAllowed = document.getElementById("tips-allowed");
 var timelimitActivated = document.getElementById("timelimit-activated");
+var difficultyBtns = _toConsumableArray(document.querySelectorAll(".settings__difficuly-btn"));
 var applySettingsBtn = document.getElementById("apply-settings");
 var resetSettingsBtn = document.getElementById("reset-settings");
 
@@ -181,6 +183,13 @@ var initEvents = function initEvents() {
     (0,_settings__WEBPACK_IMPORTED_MODULE_4__.updateToggle)(e);
   });
 
+  // Quiz settings difficulty buttons
+  _constants__WEBPACK_IMPORTED_MODULE_0__.difficultyBtns.map(function (btn) {
+    btn.addEventListener("click", function (e) {
+      (0,_settings__WEBPACK_IMPORTED_MODULE_4__.updateDifficulty)(e);
+    });
+  });
+
   // Quiz settings control buttons
   _constants__WEBPACK_IMPORTED_MODULE_0__.applySettingsBtn.addEventListener("click", function () {
     _globals__WEBPACK_IMPORTED_MODULE_1__.setQuizSettings((0,_settings__WEBPACK_IMPORTED_MODULE_4__.generateQuizSettings)());
@@ -244,7 +253,8 @@ var fetchQuiz = /*#__PURE__*/function () {
             params = {
               apiKey: "Yk930yLz3W65YXkbfkG5Cu1E3Aduuk2LqfAsO1k1",
               limit: _globals__WEBPACK_IMPORTED_MODULE_0__.getQuizSettings().amountOfQuestions,
-              difficulty: _globals__WEBPACK_IMPORTED_MODULE_0__.getQuizSettings().difficulty
+              difficulty: _globals__WEBPACK_IMPORTED_MODULE_0__.getQuizSettings().difficulty,
+              tags: "PHP"
             };
             url.search = new URLSearchParams(params).toString();
             _context.next = 5;
@@ -520,6 +530,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "maxPossibleAnswers": () => (/* binding */ maxPossibleAnswers),
 /* harmony export */   "resetQuizSettings": () => (/* binding */ resetQuizSettings),
 /* harmony export */   "updateCounter": () => (/* binding */ updateCounter),
+/* harmony export */   "updateDifficulty": () => (/* binding */ updateDifficulty),
 /* harmony export */   "updateToggle": () => (/* binding */ updateToggle)
 /* harmony export */ });
 /* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./constants */ "./src/javascript/constants.js");
@@ -530,6 +541,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var maxAmountOfQuestions = 20;
 var maxPossibleAnswers = 6;
+var difficulty = "Easy";
 
 // Quiz settings object
 var generateQuizSettings = function generateQuizSettings() {
@@ -538,7 +550,7 @@ var generateQuizSettings = function generateQuizSettings() {
     possibleAnswers: Number(_constants__WEBPACK_IMPORTED_MODULE_0__.possibleAnswers.children[1].innerText),
     tipsOn: _constants__WEBPACK_IMPORTED_MODULE_0__.tipsAllowed.children[1].innerText === "Off" ? false : true,
     timelimitOn: _constants__WEBPACK_IMPORTED_MODULE_0__.timelimitActivated.children[1].innerText === "Off" ? false : true,
-    difficulty: "Easy"
+    difficulty: difficulty
   };
 };
 var resetQuizSettings = function resetQuizSettings() {
@@ -573,6 +585,18 @@ var updateToggle = function updateToggle(event) {
   } else {
     toggleValue.innerText = "off";
   }
+};
+var updateDifficulty = function updateDifficulty(event) {
+  var targetBtn = event.target;
+  difficulty = targetBtn.innerText;
+  targetBtn.classList.remove("btn--secondary");
+  targetBtn.classList.add("btn--primary");
+  _constants__WEBPACK_IMPORTED_MODULE_0__.difficultyBtns.map(function (btn) {
+    if (btn.innerText !== targetBtn.innerText) {
+      btn.classList.remove("btn--primary");
+      btn.classList.add("btn--secondary");
+    }
+  });
 };
 
 /***/ }),
@@ -738,6 +762,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 window.onload = function () {
   _globals__WEBPACK_IMPORTED_MODULE_2__.initSessionStorage();
+  _globals__WEBPACK_IMPORTED_MODULE_2__.setQuizSettings((0,_settings__WEBPACK_IMPORTED_MODULE_6__.generateQuizSettings)());
   (0,_eventListeners__WEBPACK_IMPORTED_MODULE_7__.initEvents)();
 };
 

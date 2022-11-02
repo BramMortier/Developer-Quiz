@@ -19,6 +19,7 @@ export const amountOfQuestions = document.getElementById("amount-of-questions");
 export const possibleAnswers = document.getElementById("possible-answers");
 export const tipsAllowed = document.getElementById("tips-allowed");
 export const timelimitActivated = document.getElementById("timelimit-activated");
+export const difficultyBtns = [...document.querySelectorAll(".settings__difficuly-btn")];
 
 export const applySettingsBtn = document.getElementById("apply-settings");
 export const resetSettingsBtn = document.getElementById("reset-settings");
