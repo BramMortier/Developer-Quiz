@@ -138,6 +138,7 @@
         display: none;
         flex-direction: column;
         width: fit-content;
+        z-index: 999;
     }
 
     &__tag-result {
@@ -154,6 +155,7 @@
         display: flex;
         justify-content: flex-end;
         gap: 1.5rem;
+        margin-bottom: 0.75rem;
 
         @include breakpoint(tablet) {
             gap: 0.75rem;
@@ -163,6 +165,16 @@
             @include breakpoint(tablet) {
                 width: 100%;
             }
+        }
+    }
+
+    &__errors {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+
+        p {
+            display: none;
         }
     }
 }

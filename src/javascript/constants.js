@@ -29,6 +29,7 @@ export const tags = ["Javascript", "PHP", "Bash", "HTML", "Linux"];
 
 export const applySettingsBtn = document.getElementById("apply-settings");
 export const resetSettingsBtn = document.getElementById("reset-settings");
+export const settingsError = document.getElementById("settings-error");
 
 // Submit Screen Elements
 export const submitQuizBtn = document.getElementById("submit-quiz-btn");

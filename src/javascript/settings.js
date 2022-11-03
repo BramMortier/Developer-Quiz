@@ -1,6 +1,8 @@
 // ------------------------------------------- //
 // module imports
 import * as CONSTS from "./constants";
+import * as GLOBALS from "./globals";
+import { fetchQuiz } from "./fetchQuiz";
 // ------------------------------------------- //
 
 export let maxAmountOfQuestions = 20;
@@ -20,20 +22,30 @@ export const generateQuizSettings = () => {
     };
 };
 
+export const testQuizSettings = async () => {
+    if ((await fetchQuiz()) == undefined) {
+        CONSTS.settingsError.style.display = "initial";
+        CONSTS.selectedTags.innerHTML = "";
+        resetDifficulty();
+        resetQuizSettings();
+        GLOBALS.setQuizSettings(generateQuizSettings());
+    } else {
+        CONSTS.settingsError.style.display = "none";
+    }
+};
+
 export const resetQuizSettings = () => {
     CONSTS.amountOfQuestions.children[1].innerText = 10;
     CONSTS.possibleAnswers.children[1].innerText = 4;
     CONSTS.tipsAllowed.children[1].innerText = "off";
     CONSTS.timelimitActivated.children[1].innerText = "off";
+    difficulty = "Easy";
+    selectedTags = "";
 };
 
 export const checkCounterValue = (currentValue, maxValue) => {
-    if (currentValue == maxValue) {
-        return currentValue - 1;
-    }
-    if (currentValue == 1) {
-        return currentValue + 1;
-    }
+    if (currentValue == maxValue) return currentValue - 1;
+    if (currentValue == 1) return currentValue + 1;
     return currentValue;
 };
 
@@ -71,6 +83,18 @@ export const updateDifficulty = (event) => {
         if (btn.innerText !== targetBtn.innerText) {
             btn.classList.remove("btn--primary");
             btn.classList.add("btn--secondary");
+        }
+    });
+};
+
+export const resetDifficulty = () => {
+    CONSTS.difficultyBtns.map((btn) => {
+        btn.classList.remove("btn--primary");
+        btn.classList.add("btn--secondary");
+
+        if (btn.innerText === "Easy") {
+            btn.classList.remove("btn--secondary");
+            btn.classList.add("btn--primary");
         }
     });
 };
@@ -120,7 +144,10 @@ export const updateSelectedTags = () => {
     selectedTags = selectedTagsElArray.map((tag) => {
         tag.children[1].addEventListener("click", () => {
             CONSTS.selectedTags.removeChild(tag);
+            updateSelectedTags();
         });
         return tag.children[0].innerText;
     });
+
+    if (selectedTags.length === 0) selectedTags = "";
 };

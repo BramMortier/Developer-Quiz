@@ -13,6 +13,8 @@ import {
     generateQuizSettings,
     resetQuizSettings,
     updateTagResults,
+    updateSelectedTags,
+    testQuizSettings,
 } from "./settings";
 import { displayQuestion, highlightSelectedAnswer } from "./renderQuestion";
 // ------------------------------------------- //
@@ -74,7 +76,9 @@ export const initEvents = () => {
 
     // Quiz settings control buttons
     CONSTS.applySettingsBtn.addEventListener("click", () => {
+        updateSelectedTags();
         GLOBALS.setQuizSettings(generateQuizSettings());
+        testQuizSettings();
     });
 
     CONSTS.resetSettingsBtn.addEventListener("click", () => {

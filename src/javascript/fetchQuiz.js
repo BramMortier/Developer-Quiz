@@ -16,8 +16,15 @@ export const fetchQuiz = async () => {
 
     url.search = new URLSearchParams(params).toString();
 
-    let res = await fetch(url);
-    let data = await res.json();
-    // console.log(data);
-    return data;
+    try {
+        let res = await fetch(url);
+        if (res.status >= 200 && res.status <= 299) {
+            let data = await res.json();
+            return data;
+        } else {
+            throw Error("Data fetching error");
+        }
+    } catch (error) {
+        return undefined;
+    }
 };
