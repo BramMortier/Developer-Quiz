@@ -4,6 +4,7 @@ import * as CONSTS from "./constants";
 import * as GLOBALS from "./globals";
 import { submitQuiz } from "./submitQuiz";
 import { changeScreen } from "./screenNav";
+import { saveHighscore } from "./highscores";
 import {
     updateCounter,
     updateToggle,
@@ -32,7 +33,7 @@ export const initEvents = () => {
     });
 
     CONSTS.highscoresBtn.addEventListener("click", () => {
-        changeScreen(CONSTS.highscores);
+        changeScreen(CONSTS.highscoresScreen);
     });
 
     CONSTS.quitBtn.addEventListener("click", () => {
@@ -90,6 +91,13 @@ export const initEvents = () => {
         submitQuiz(GLOBALS.getAnswerStorage(), GLOBALS.getQuizData());
         CONSTS.submitModal.classList.add("modal--hidden");
         changeScreen(CONSTS.resultScreen);
+    });
+
+    // Save Quiz score logic
+    CONSTS.saveQuizScoreBtn.addEventListener("click", () => {
+        saveHighscore();
+        CONSTS.highscoreModal.classList.add("modal--hidden");
+        changeScreen(CONSTS.highscoresScreen);
     });
 
     // Question pagination logic

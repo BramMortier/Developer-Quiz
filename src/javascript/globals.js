@@ -1,3 +1,8 @@
+// ------------------------------------------- //
+// module imports
+import { highscores } from "./highscores";
+// ------------------------------------------- //
+
 export const initSessionStorage = () => {
     if (!sessionStorage.getItem("quizData")) {
         sessionStorage.setItem("quizData", []);
@@ -10,6 +15,12 @@ export const initSessionStorage = () => {
     }
     sessionStorage.setItem("quizScore", 0);
     sessionStorage.setItem("questionIndex", 0);
+};
+
+export const initLocalStorage = () => {
+    if (!localStorage.getItem("highscores")) {
+        localStorage.setItem("highscores", JSON.stringify(highscores));
+    }
 };
 
 // QuizData get & set
@@ -74,4 +85,13 @@ export const setQuestionIndex = (index) => {
 
 export const getQuestionIndex = () => {
     return Number(sessionStorage.getItem("questionIndex"));
+};
+
+// Highscores get & set
+export const setHighscores = (data) => {
+    localStorage.setItem("highscores", JSON.stringify(data));
+};
+
+export const getHighscores = () => {
+    return JSON.parse(localStorage.getItem("highscores"));
 };

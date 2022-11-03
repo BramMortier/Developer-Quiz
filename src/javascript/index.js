@@ -8,13 +8,18 @@ import * as GLOBALS from "./globals";
 import { displayQuestion } from "./renderQuestion";
 import { changeScreen } from "./screenNav";
 import { fetchQuiz } from "./fetchQuiz";
+import { renderHighscores } from "./highscores";
 import { generateQuizSettings } from "./settings";
 import { initEvents } from "./eventListeners";
 // ------------------------------------------- //
 
+// Window load
 window.onload = () => {
     GLOBALS.initSessionStorage();
+    GLOBALS.initLocalStorage();
+    GLOBALS.setHighscores(GLOBALS.getHighscores());
     GLOBALS.setQuizSettings(generateQuizSettings());
+    renderHighscores();
     initEvents();
 };
 
@@ -24,7 +29,7 @@ CONSTS.startBtn.addEventListener("click", () => {
     changeScreen(CONSTS.questionScreen);
 });
 
-// Quiz init
+// Quiz start
 const startNewQuiz = async () => {
     GLOBALS.setQuizSettings(generateQuizSettings());
     GLOBALS.setQuizData(await fetchQuiz());

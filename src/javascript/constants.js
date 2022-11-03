@@ -2,10 +2,10 @@
 export const startScreen = document.querySelector(".startscreen");
 export const questionScreen = document.querySelector(".question");
 export const settingsScreen = document.querySelector(".settings");
-export const highscores = document.querySelector(".highscores");
+export const highscoresScreen = document.querySelector(".highscores");
 export const resultScreen = document.querySelector(".results");
 
-export const pages = [startScreen, questionScreen, settingsScreen, highscores, resultScreen];
+export const pages = [startScreen, questionScreen, settingsScreen, highscoresScreen, resultScreen];
 
 // Button ELements
 export const startBtn = document.getElementById("start-btn");
@@ -25,11 +25,14 @@ export const tagSearchbar = document.getElementById("tag-searchbar");
 export const tagResults = document.getElementById("tag-results");
 export const selectedTags = document.getElementById("selected-tags");
 
-export const tags = ["Javascript", "PHP", "Bash", "HTML", "Linux"];
+export const tags = ["Javascript", "PHP", "Bash", "HTML", "Linux", "Docker", "MySQL", "WordPress", "Laravel", "Kubernetes", "DevOps"];
 
 export const applySettingsBtn = document.getElementById("apply-settings");
 export const resetSettingsBtn = document.getElementById("reset-settings");
 export const settingsError = document.getElementById("settings-error");
+
+// Highscore Elements
+export const highscoresList = document.getElementById("highscores-list");
 
 // Submit Screen Elements
 export const submitQuizBtn = document.getElementById("submit-quiz-btn");
@@ -38,6 +41,7 @@ export const resultElements = [...document.querySelectorAll(".results__infopiece
 
 export const quizPointsScore = document.getElementById("points-score");
 export const saveQuizScoreBtn = document.getElementById("save-score");
+export const highscoreUsername = document.getElementById("highscore-user");
 
 // Question Elements
 export const prevPageBtn = document.getElementById("prev-page");
