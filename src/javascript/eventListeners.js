@@ -115,4 +115,12 @@ export const initEvents = () => {
     CONSTS.closeSubmitModal.addEventListener("click", () => {
         CONSTS.submitModal.classList.add("modal--hidden");
     });
+
+    CONSTS.openHighscoreModal.addEventListener("click", () => {
+        CONSTS.highscoreModal.classList.remove("modal--hidden");
+    });
+
+    CONSTS.closeHighscoreModal.addEventListener("click", () => {
+        CONSTS.highscoreModal.classList.add("modal--hidden");
+    });
 };

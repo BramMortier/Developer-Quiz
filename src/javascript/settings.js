@@ -24,23 +24,26 @@ export const generateQuizSettings = () => {
 
 export const testQuizSettings = async () => {
     if ((await fetchQuiz()) == undefined) {
-        CONSTS.settingsError.style.display = "initial";
-        CONSTS.selectedTags.innerHTML = "";
-        resetDifficulty();
         resetQuizSettings();
-        GLOBALS.setQuizSettings(generateQuizSettings());
+        CONSTS.settingsError.style.display = "initial";
     } else {
         CONSTS.settingsError.style.display = "none";
     }
 };
 
 export const resetQuizSettings = () => {
+    resetDifficulty();
+    CONSTS.selectedTags.innerHTML = "";
+    CONSTS.settingsError.style.display = "none";
+
     CONSTS.amountOfQuestions.children[1].innerText = 10;
     CONSTS.possibleAnswers.children[1].innerText = 4;
     CONSTS.tipsAllowed.children[1].innerText = "off";
     CONSTS.timelimitActivated.children[1].innerText = "off";
     difficulty = "Easy";
     selectedTags = "";
+
+    GLOBALS.setQuizSettings(generateQuizSettings());
 };
 
 export const checkCounterValue = (currentValue, maxValue) => {

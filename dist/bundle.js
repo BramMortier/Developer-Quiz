@@ -53,12 +53,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "answerList": () => (/* binding */ answerList),
 /* harmony export */   "applySettingsBtn": () => (/* binding */ applySettingsBtn),
 /* harmony export */   "backBtns": () => (/* binding */ backBtns),
+/* harmony export */   "closeHighscoreModal": () => (/* binding */ closeHighscoreModal),
 /* harmony export */   "closeSubmitModal": () => (/* binding */ closeSubmitModal),
 /* harmony export */   "difficultyBtns": () => (/* binding */ difficultyBtns),
 /* harmony export */   "graphProgress": () => (/* binding */ graphProgress),
+/* harmony export */   "highscoreModal": () => (/* binding */ highscoreModal),
 /* harmony export */   "highscores": () => (/* binding */ highscores),
 /* harmony export */   "highscoresBtn": () => (/* binding */ highscoresBtn),
 /* harmony export */   "nextPageBtn": () => (/* binding */ nextPageBtn),
+/* harmony export */   "openHighscoreModal": () => (/* binding */ openHighscoreModal),
 /* harmony export */   "openSubmitModal": () => (/* binding */ openSubmitModal),
 /* harmony export */   "pages": () => (/* binding */ pages),
 /* harmony export */   "possibleAnswers": () => (/* binding */ possibleAnswers),
@@ -69,9 +72,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "questionPhrase": () => (/* binding */ questionPhrase),
 /* harmony export */   "questionScreen": () => (/* binding */ questionScreen),
 /* harmony export */   "quitBtn": () => (/* binding */ quitBtn),
+/* harmony export */   "quizPointsScore": () => (/* binding */ quizPointsScore),
 /* harmony export */   "resetSettingsBtn": () => (/* binding */ resetSettingsBtn),
 /* harmony export */   "resultElements": () => (/* binding */ resultElements),
 /* harmony export */   "resultScreen": () => (/* binding */ resultScreen),
+/* harmony export */   "saveQuizScoreBtn": () => (/* binding */ saveQuizScoreBtn),
 /* harmony export */   "selectedTags": () => (/* binding */ selectedTags),
 /* harmony export */   "settingsBtn": () => (/* binding */ settingsBtn),
 /* harmony export */   "settingsError": () => (/* binding */ settingsError),
@@ -125,6 +130,8 @@ var settingsError = document.getElementById("settings-error");
 var submitQuizBtn = document.getElementById("submit-quiz-btn");
 var questionComparisonList = document.getElementById("question-comparison-list");
 var resultElements = _toConsumableArray(document.querySelectorAll(".results__infopiece"));
+var quizPointsScore = document.getElementById("points-score");
+var saveQuizScoreBtn = document.getElementById("save-score");
 
 // Question Elements
 var prevPageBtn = document.getElementById("prev-page");
@@ -141,6 +148,9 @@ var progressValue = document.getElementById("progress-value");
 var submitModal = document.getElementById("submit-modal");
 var openSubmitModal = document.getElementById("open-submit-modal");
 var closeSubmitModal = document.getElementById("close-submit-modal");
+var highscoreModal = document.getElementById("highscore-modal");
+var openHighscoreModal = document.getElementById("open-highscore-modal");
+var closeHighscoreModal = document.getElementById("close-highscore-modal");
 
 /***/ }),
 
@@ -255,6 +265,12 @@ var initEvents = function initEvents() {
   });
   _constants__WEBPACK_IMPORTED_MODULE_0__.closeSubmitModal.addEventListener("click", function () {
     _constants__WEBPACK_IMPORTED_MODULE_0__.submitModal.classList.add("modal--hidden");
+  });
+  _constants__WEBPACK_IMPORTED_MODULE_0__.openHighscoreModal.addEventListener("click", function () {
+    _constants__WEBPACK_IMPORTED_MODULE_0__.highscoreModal.classList.remove("modal--hidden");
+  });
+  _constants__WEBPACK_IMPORTED_MODULE_0__.closeHighscoreModal.addEventListener("click", function () {
+    _constants__WEBPACK_IMPORTED_MODULE_0__.highscoreModal.classList.add("modal--hidden");
   });
 };
 
@@ -438,6 +454,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "compareAnswer": () => (/* binding */ compareAnswer),
 /* harmony export */   "findCorrectAnswerIndex": () => (/* binding */ findCorrectAnswerIndex),
+/* harmony export */   "randomInteger": () => (/* binding */ randomInteger),
 /* harmony export */   "trimString": () => (/* binding */ trimString)
 /* harmony export */ });
 // Compares the indexes of the given answer and the correct answer
@@ -459,6 +476,56 @@ var findCorrectAnswerIndex = function findCorrectAnswerIndex(answers) {
     if (answer == "true") correctIndex = index;
   });
   return correctIndex;
+};
+
+// Generate random number
+var randomInteger = function randomInteger(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+};
+
+/***/ }),
+
+/***/ "./src/javascript/highscores.js":
+/*!**************************************!*\
+  !*** ./src/javascript/highscores.js ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "calculatePointsScore": () => (/* binding */ calculatePointsScore)
+/* harmony export */ });
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./constants */ "./src/javascript/constants.js");
+/* harmony import */ var _globals__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./globals */ "./src/javascript/globals.js");
+/* harmony import */ var _helperFunctions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./helperFunctions */ "./src/javascript/helperFunctions.js");
+// ------------------------------------------- //
+// module imports
+
+
+
+// ------------------------------------------- //
+
+var easyMultiplier = 0.85;
+var mediumMultiplier = 1;
+var hardMultiplier = 1.25;
+var calculatePointsScore = function calculatePointsScore(quizScore) {
+  var quizDifficulty = _globals__WEBPACK_IMPORTED_MODULE_1__.getQuizSettings().difficulty;
+
+  // multiply score by amount of question in quiz
+  quizScore *= _globals__WEBPACK_IMPORTED_MODULE_1__.getQuizSettings().amountOfQuestions;
+
+  // multiply score by topics chosen + 3
+  quizScore *= _globals__WEBPACK_IMPORTED_MODULE_1__.getQuizSettings().tags.length + 3;
+
+  // luck multiplier
+  quizScore *= (0,_helperFunctions__WEBPACK_IMPORTED_MODULE_2__.randomInteger)(20, 25);
+  quizScore += (0,_helperFunctions__WEBPACK_IMPORTED_MODULE_2__.randomInteger)(0, 100);
+
+  // difficulty multiplier
+  if (quizDifficulty == "Easy") quizScore *= easyMultiplier;
+  if (quizDifficulty == "Medium") quizScore *= mediumMultiplier;
+  if (quizDifficulty == "Hard") quizScore *= hardMultiplier;
+  return Math.ceil(quizScore);
 };
 
 /***/ }),
@@ -639,19 +706,16 @@ var testQuizSettings = /*#__PURE__*/function () {
             _context.t0 = _context.sent;
             _context.t1 = undefined;
             if (!(_context.t0 == _context.t1)) {
-              _context.next = 12;
+              _context.next = 9;
               break;
             }
-            _constants__WEBPACK_IMPORTED_MODULE_0__.settingsError.style.display = "initial";
-            _constants__WEBPACK_IMPORTED_MODULE_0__.selectedTags.innerHTML = "";
-            resetDifficulty();
             resetQuizSettings();
-            _globals__WEBPACK_IMPORTED_MODULE_1__.setQuizSettings(generateQuizSettings());
-            _context.next = 13;
+            _constants__WEBPACK_IMPORTED_MODULE_0__.settingsError.style.display = "initial";
+            _context.next = 10;
             break;
-          case 12:
+          case 9:
             _constants__WEBPACK_IMPORTED_MODULE_0__.settingsError.style.display = "none";
-          case 13:
+          case 10:
           case "end":
             return _context.stop();
         }
@@ -663,12 +727,16 @@ var testQuizSettings = /*#__PURE__*/function () {
   };
 }();
 var resetQuizSettings = function resetQuizSettings() {
+  resetDifficulty();
+  _constants__WEBPACK_IMPORTED_MODULE_0__.selectedTags.innerHTML = "";
+  _constants__WEBPACK_IMPORTED_MODULE_0__.settingsError.style.display = "none";
   _constants__WEBPACK_IMPORTED_MODULE_0__.amountOfQuestions.children[1].innerText = 10;
   _constants__WEBPACK_IMPORTED_MODULE_0__.possibleAnswers.children[1].innerText = 4;
   _constants__WEBPACK_IMPORTED_MODULE_0__.tipsAllowed.children[1].innerText = "off";
   _constants__WEBPACK_IMPORTED_MODULE_0__.timelimitActivated.children[1].innerText = "off";
   difficulty = "Easy";
   selectedTags = "";
+  _globals__WEBPACK_IMPORTED_MODULE_1__.setQuizSettings(generateQuizSettings());
 };
 var checkCounterValue = function checkCounterValue(currentValue, maxValue) {
   if (currentValue == maxValue) return currentValue - 1;
@@ -770,8 +838,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _globals__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./globals */ "./src/javascript/globals.js");
 /* harmony import */ var _circleGraph__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./circleGraph */ "./src/javascript/circleGraph.js");
 /* harmony import */ var _helperFunctions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./helperFunctions */ "./src/javascript/helperFunctions.js");
+/* harmony import */ var _highscores__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./highscores */ "./src/javascript/highscores.js");
 // ------------------------------------------- //
 // module imports
+
 
 
 
@@ -786,6 +856,7 @@ var submitQuiz = function submitQuiz(answers, questions) {
       _globals__WEBPACK_IMPORTED_MODULE_1__.setQuizScore(_globals__WEBPACK_IMPORTED_MODULE_1__.getQuizScore() + 1);
     }
   });
+  _constants__WEBPACK_IMPORTED_MODULE_0__.quizPointsScore.innerText = (0,_highscores__WEBPACK_IMPORTED_MODULE_4__.calculatePointsScore)(_globals__WEBPACK_IMPORTED_MODULE_1__.getQuizScore());
   var scoreToPercentage = Math.round(_globals__WEBPACK_IMPORTED_MODULE_1__.getQuizScore() / _globals__WEBPACK_IMPORTED_MODULE_1__.getQuizSettings().amountOfQuestions * 100);
   _constants__WEBPACK_IMPORTED_MODULE_0__.resultElements.map(function (el) {
     var resultType = el.children[0].innerText.slice(0, -1).toLowerCase();
@@ -793,7 +864,7 @@ var submitQuiz = function submitQuiz(answers, questions) {
     if (resultType === "score") resultValue.innerText = "".concat(scoreToPercentage, "%");
     if (resultType === "total questions") resultValue.innerText = _globals__WEBPACK_IMPORTED_MODULE_1__.getQuizSettings().amountOfQuestions;
     if (resultType === "answered correct") resultValue.innerText = _globals__WEBPACK_IMPORTED_MODULE_1__.getQuizScore();
-    if (resultType === "topic") resultValue.innerText = "Random";
+    if (resultType === "topic") resultValue.innerText = _globals__WEBPACK_IMPORTED_MODULE_1__.getQuizSettings().tags == "" ? "Random" : _globals__WEBPACK_IMPORTED_MODULE_1__.getQuizSettings().tags.join(" ");
     if (resultType === "difficulty") resultValue.innerText = _globals__WEBPACK_IMPORTED_MODULE_1__.getQuizSettings().difficulty;
     if (resultType === "final") resultValue.innerText = scoreToPercentage >= 50 ? "Pass" : "Fail";
   });

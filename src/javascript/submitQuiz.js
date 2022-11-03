@@ -4,6 +4,7 @@ import * as CONSTS from "./constants";
 import * as GLOBALS from "./globals";
 import { initCircleGraph } from "./circleGraph";
 import { trimString, compareAnswer, findCorrectAnswerIndex } from "./helperFunctions";
+import { calculatePointsScore } from "./highscores";
 // ------------------------------------------- //
 
 export const submitQuiz = (answers, questions) => {
@@ -16,6 +17,8 @@ export const submitQuiz = (answers, questions) => {
         }
     });
 
+    CONSTS.quizPointsScore.innerText = calculatePointsScore(GLOBALS.getQuizScore());
+
     let scoreToPercentage = Math.round((GLOBALS.getQuizScore() / GLOBALS.getQuizSettings().amountOfQuestions) * 100);
 
     CONSTS.resultElements.map((el) => {
@@ -25,7 +28,8 @@ export const submitQuiz = (answers, questions) => {
         if (resultType === "score") resultValue.innerText = `${scoreToPercentage}%`;
         if (resultType === "total questions") resultValue.innerText = GLOBALS.getQuizSettings().amountOfQuestions;
         if (resultType === "answered correct") resultValue.innerText = GLOBALS.getQuizScore();
-        if (resultType === "topic") resultValue.innerText = "Random";
+        if (resultType === "topic")
+            resultValue.innerText = GLOBALS.getQuizSettings().tags == "" ? "Random" : GLOBALS.getQuizSettings().tags.join(" ");
         if (resultType === "difficulty") resultValue.innerText = GLOBALS.getQuizSettings().difficulty;
         if (resultType === "final") resultValue.innerText = scoreToPercentage >= 50 ? "Pass" : "Fail";
     });

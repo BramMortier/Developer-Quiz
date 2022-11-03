@@ -36,6 +36,9 @@ export const submitQuizBtn = document.getElementById("submit-quiz-btn");
 export const questionComparisonList = document.getElementById("question-comparison-list");
 export const resultElements = [...document.querySelectorAll(".results__infopiece")];
 
+export const quizPointsScore = document.getElementById("points-score");
+export const saveQuizScoreBtn = document.getElementById("save-score");
+
 // Question Elements
 export const prevPageBtn = document.getElementById("prev-page");
 export const nextPageBtn = document.getElementById("next-page");
@@ -52,3 +55,7 @@ export const progressValue = document.getElementById("progress-value");
 export const submitModal = document.getElementById("submit-modal");
 export const openSubmitModal = document.getElementById("open-submit-modal");
 export const closeSubmitModal = document.getElementById("close-submit-modal");
+
+export const highscoreModal = document.getElementById("highscore-modal");
+export const openHighscoreModal = document.getElementById("open-highscore-modal");
+export const closeHighscoreModal = document.getElementById("close-highscore-modal");

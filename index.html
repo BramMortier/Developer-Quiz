@@ -186,7 +186,10 @@
 
             <!-- results layout begin -->
             <section class="results container container--inactive">
-                <h2 class="text-center">Results</h2>
+                <div class="results__title-container">
+                    <h2 class="text-center">Results</h2>
+                    <p><span id="points-score" class="font-gimlet"></span>points</p>
+                </div>
                 <div class="results__info-container">
                     <div class="results__graph">
                         <div id="graph-progress" class="circle-graph">
@@ -220,7 +223,10 @@
                         </div>
                     </div>
                 </div>
-                <h3 class="font-autopro">Answer comparison</h3>
+                <div class="results__save-score">
+                    <h3 class="font-autopro">Answer comparison</h3>
+                    <button id="open-highscore-modal" class="btn btn--primary btn--small">Save result</button>
+                </div>
                 <div id="question-comparison-list" class="results__answer-comparison"></div>
                 <button class="back-btn">
                     <img src="./src/images/icons/back-arrow.svg" alt="highscores" />
@@ -237,6 +243,20 @@
                 <div class="modal__buttons">
                     <button id="close-submit-modal" class="btn btn--secondary btn--small">No</button>
                     <button id="submit-quiz-btn" class="btn btn--secondary btn--small">Yes</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal modal--hidden" id="highscore-modal">
+            <div class="modal__content">
+                <p>Who is this genius person?</p>
+                <form id="highscore-form" class="modal__form">
+                    <label class="p" for="username">Username</label>
+                    <input type="text" name="username" placeholder="Choose a name" />
+                </form>
+                <div class="modal__buttons">
+                    <button id="close-highscore-modal" class="btn btn--secondary btn--small">Back</button>
+                    <button id="save-score" class="btn btn--secondary btn--small">Save</button>
                 </div>
             </div>
         </div>

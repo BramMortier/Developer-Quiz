@@ -4,6 +4,29 @@
     display: flex;
     flex-direction: column;
 
+    &__title-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1.5rem;
+        margin-bottom: 1rem;
+
+        h2 {
+            margin: 0;
+        }
+
+        p {
+            font-size: var(--fs-small);
+            color: var(--accent);
+        }
+
+        span {
+            font-size: var(--fs-large);
+            color: var(--secondary);
+            margin-right: 0.5rem;
+        }
+    }
+
     // Info component styling
 
     &__info-container {
@@ -14,7 +37,7 @@
         display: flex;
         align-items: center;
         gap: 2rem;
-        margin-bottom: 3.125rem;
+        margin-bottom: 2rem;
 
         @include breakpoint(tablet) {
             flex-direction: row-reverse;
@@ -70,9 +93,15 @@
 
     // Comparison component styling
 
-    h3 {
-        margin-bottom: 1.25rem;
-        font-size: var(--fs-medium);
+    &__save-score {
+        margin-bottom: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        h3 {
+            font-size: var(--fs-medium);
+        }
     }
 
     &__answer-comparison {

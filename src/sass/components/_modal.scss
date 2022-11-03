@@ -7,10 +7,33 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: var(--modal-bg);
 
     &--hidden {
         display: none;
+    }
+
+    &__form {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+        width: 100%;
+
+        input {
+            padding: 0.5rem 1rem;
+            width: 100%;
+            background-color: var(--dark-gray);
+            border: none;
+            outline: none;
+            font-size: var(--fs-small);
+            color: var(--secondary);
+            font-family: var(--paragraph-font);
+
+            &::placeholder {
+                font-weight: bold;
+            }
+        }
     }
 
     &__content {

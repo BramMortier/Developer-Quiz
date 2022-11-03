@@ -18,3 +18,8 @@ export const findCorrectAnswerIndex = (answers) => {
     });
     return correctIndex;
 };
+
+// Generate random number
+export const randomInteger = (min, max) => {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+};
