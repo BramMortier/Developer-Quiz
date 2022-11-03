@@ -53,11 +53,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "answerList": () => (/* binding */ answerList),
 /* harmony export */   "applySettingsBtn": () => (/* binding */ applySettingsBtn),
 /* harmony export */   "backBtns": () => (/* binding */ backBtns),
+/* harmony export */   "closeSubmitModal": () => (/* binding */ closeSubmitModal),
 /* harmony export */   "difficultyBtns": () => (/* binding */ difficultyBtns),
 /* harmony export */   "graphProgress": () => (/* binding */ graphProgress),
 /* harmony export */   "highscores": () => (/* binding */ highscores),
 /* harmony export */   "highscoresBtn": () => (/* binding */ highscoresBtn),
 /* harmony export */   "nextPageBtn": () => (/* binding */ nextPageBtn),
+/* harmony export */   "openSubmitModal": () => (/* binding */ openSubmitModal),
 /* harmony export */   "pages": () => (/* binding */ pages),
 /* harmony export */   "possibleAnswers": () => (/* binding */ possibleAnswers),
 /* harmony export */   "prevPageBtn": () => (/* binding */ prevPageBtn),
@@ -76,6 +78,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "settingsScreen": () => (/* binding */ settingsScreen),
 /* harmony export */   "startBtn": () => (/* binding */ startBtn),
 /* harmony export */   "startScreen": () => (/* binding */ startScreen),
+/* harmony export */   "submitModal": () => (/* binding */ submitModal),
 /* harmony export */   "submitQuizBtn": () => (/* binding */ submitQuizBtn),
 /* harmony export */   "tagResults": () => (/* binding */ tagResults),
 /* harmony export */   "tagSearchbar": () => (/* binding */ tagSearchbar),
@@ -133,6 +136,11 @@ var questionNav = document.getElementById("question-nav");
 // Circle Graph Elements
 var graphProgress = document.getElementById("graph-progress");
 var progressValue = document.getElementById("progress-value");
+
+// Modals
+var submitModal = document.getElementById("submit-modal");
+var openSubmitModal = document.getElementById("open-submit-modal");
+var closeSubmitModal = document.getElementById("close-submit-modal");
 
 /***/ }),
 
@@ -223,6 +231,7 @@ var initEvents = function initEvents() {
   // Quiz submit logic
   _constants__WEBPACK_IMPORTED_MODULE_0__.submitQuizBtn.addEventListener("click", function () {
     (0,_submitQuiz__WEBPACK_IMPORTED_MODULE_2__.submitQuiz)(_globals__WEBPACK_IMPORTED_MODULE_1__.getAnswerStorage(), _globals__WEBPACK_IMPORTED_MODULE_1__.getQuizData());
+    _constants__WEBPACK_IMPORTED_MODULE_0__.submitModal.classList.add("modal--hidden");
     (0,_screenNav__WEBPACK_IMPORTED_MODULE_3__.changeScreen)(_constants__WEBPACK_IMPORTED_MODULE_0__.resultScreen);
   });
 
@@ -238,6 +247,14 @@ var initEvents = function initEvents() {
     _globals__WEBPACK_IMPORTED_MODULE_1__.setQuestionIndex(_globals__WEBPACK_IMPORTED_MODULE_1__.getQuestionIndex() - 1);
     (0,_renderQuestion__WEBPACK_IMPORTED_MODULE_5__.displayQuestion)(_globals__WEBPACK_IMPORTED_MODULE_1__.getQuizData());
     (0,_renderQuestion__WEBPACK_IMPORTED_MODULE_5__.highlightSelectedAnswer)(_globals__WEBPACK_IMPORTED_MODULE_1__.getQuestionIndex());
+  });
+
+  // Modal events
+  _constants__WEBPACK_IMPORTED_MODULE_0__.openSubmitModal.addEventListener("click", function () {
+    _constants__WEBPACK_IMPORTED_MODULE_0__.submitModal.classList.remove("modal--hidden");
+  });
+  _constants__WEBPACK_IMPORTED_MODULE_0__.closeSubmitModal.addEventListener("click", function () {
+    _constants__WEBPACK_IMPORTED_MODULE_0__.submitModal.classList.add("modal--hidden");
   });
 };
 

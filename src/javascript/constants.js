@@ -47,3 +47,8 @@ export const questionNav = document.getElementById("question-nav");
 // Circle Graph Elements
 export const graphProgress = document.getElementById("graph-progress");
 export const progressValue = document.getElementById("progress-value");
+
+// Modals
+export const submitModal = document.getElementById("submit-modal");
+export const openSubmitModal = document.getElementById("open-submit-modal");
+export const closeSubmitModal = document.getElementById("close-submit-modal");

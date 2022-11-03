@@ -123,7 +123,7 @@
                             <img src="./src/images/icons/right-arrow.svg" alt="arrow" />
                         </div>
                     </div>
-                    <button id="submit-quiz-btn" class="btn btn--primary btn--small">Submit</button>
+                    <button id="open-submit-modal" class="btn btn--primary btn--small">Submit</button>
                 </div>
                 <button class="back-btn">
                     <img src="./src/images/icons/back-arrow.svg" alt="highscores" />
@@ -229,5 +229,17 @@
             </section>
             <!-- results layout end -->
         </main>
+
+        <!-- modals begin -->
+        <div class="modal modal--hidden" id="submit-modal">
+            <div class="modal__content">
+                <p>Are you sure you want to submit?</p>
+                <div class="modal__buttons">
+                    <button id="close-submit-modal" class="btn btn--secondary btn--small">No</button>
+                    <button id="submit-quiz-btn" class="btn btn--secondary btn--small">Yes</button>
+                </div>
+            </div>
+        </div>
+        <!-- modals end -->
     </body>
 </html>

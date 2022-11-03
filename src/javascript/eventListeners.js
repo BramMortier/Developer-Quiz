@@ -88,6 +88,7 @@ export const initEvents = () => {
     // Quiz submit logic
     CONSTS.submitQuizBtn.addEventListener("click", () => {
         submitQuiz(GLOBALS.getAnswerStorage(), GLOBALS.getQuizData());
+        CONSTS.submitModal.classList.add("modal--hidden");
         changeScreen(CONSTS.resultScreen);
     });
 
@@ -104,5 +105,14 @@ export const initEvents = () => {
         GLOBALS.setQuestionIndex(GLOBALS.getQuestionIndex() - 1);
         displayQuestion(GLOBALS.getQuizData());
         highlightSelectedAnswer(GLOBALS.getQuestionIndex());
+    });
+
+    // Modal events
+    CONSTS.openSubmitModal.addEventListener("click", () => {
+        CONSTS.submitModal.classList.remove("modal--hidden");
+    });
+
+    CONSTS.closeSubmitModal.addEventListener("click", () => {
+        CONSTS.submitModal.classList.add("modal--hidden");
     });
 };
