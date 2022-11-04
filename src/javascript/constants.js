@@ -47,6 +47,8 @@ export const highscoreUsername = document.getElementById("highscore-user");
 export const prevPageBtn = document.getElementById("prev-page");
 export const nextPageBtn = document.getElementById("next-page");
 
+export const hintBtn = document.getElementById("hint-btn");
+
 export const questionPhrase = document.getElementById("question");
 export const answerList = document.getElementById("answer-list");
 export const questionNav = document.getElementById("question-nav");

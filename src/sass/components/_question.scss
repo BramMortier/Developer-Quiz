@@ -9,13 +9,43 @@
         margin-bottom: 1.5625rem;
     }
 
+    &__navigation {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 3.75rem;
+    }
+
+    &__hint-btn {
+        display: none;
+        height: fit-content;
+        width: 30px;
+        transition: all ease 0.2s;
+
+        &:hover {
+            transform: scale(1.15);
+            cursor: pointer;
+        }
+
+        &--used {
+            opacity: 0.5;
+        }
+
+        &--active {
+            display: initial;
+        }
+
+        img {
+            display: block;
+        }
+    }
+
     &__numbers {
         display: flex;
         flex-wrap: wrap;
         align-items: center;
         gap: 1rem;
         max-width: 65%;
-        margin-bottom: 3.75rem;
 
         @include breakpoint(tablet) {
             max-width: 100%;

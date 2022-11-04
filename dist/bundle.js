@@ -62,6 +62,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "highscoresBtn": () => (/* binding */ highscoresBtn),
 /* harmony export */   "highscoresList": () => (/* binding */ highscoresList),
 /* harmony export */   "highscoresScreen": () => (/* binding */ highscoresScreen),
+/* harmony export */   "hintBtn": () => (/* binding */ hintBtn),
 /* harmony export */   "nextPageBtn": () => (/* binding */ nextPageBtn),
 /* harmony export */   "openHighscoreModal": () => (/* binding */ openHighscoreModal),
 /* harmony export */   "openSubmitModal": () => (/* binding */ openSubmitModal),
@@ -142,6 +143,7 @@ var highscoreUsername = document.getElementById("highscore-user");
 // Question Elements
 var prevPageBtn = document.getElementById("prev-page");
 var nextPageBtn = document.getElementById("next-page");
+var hintBtn = document.getElementById("hint-btn");
 var questionPhrase = document.getElementById("question");
 var answerList = document.getElementById("answer-list");
 var questionNav = document.getElementById("question-nav");
@@ -286,6 +288,11 @@ var initEvents = function initEvents() {
   });
   _constants__WEBPACK_IMPORTED_MODULE_0__.closeHighscoreModal.addEventListener("click", function () {
     _constants__WEBPACK_IMPORTED_MODULE_0__.highscoreModal.classList.add("modal--hidden");
+  });
+
+  // Quiz hint button logic
+  _constants__WEBPACK_IMPORTED_MODULE_0__.hintBtn.addEventListener("click", function () {
+    (0,_renderQuestion__WEBPACK_IMPORTED_MODULE_6__.useHint)();
   });
 };
 
@@ -615,7 +622,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "displayQuestion": () => (/* binding */ displayQuestion),
 /* harmony export */   "highlightSelectedAnswer": () => (/* binding */ highlightSelectedAnswer),
-/* harmony export */   "renderQuestionNavigation": () => (/* binding */ renderQuestionNavigation)
+/* harmony export */   "renderQuestionNavigation": () => (/* binding */ renderQuestionNavigation),
+/* harmony export */   "useHint": () => (/* binding */ useHint)
 /* harmony export */ });
 /* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./constants */ "./src/javascript/constants.js");
 /* harmony import */ var _globals__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./globals */ "./src/javascript/globals.js");
@@ -662,6 +670,7 @@ var renderQuestionNavigation = function renderQuestionNavigation(questions) {
 };
 var displayQuestion = function displayQuestion(data) {
   renderQuestionNavigation(data);
+  if (_globals__WEBPACK_IMPORTED_MODULE_1__.getQuizSettings().tipsOn === true) _constants__WEBPACK_IMPORTED_MODULE_0__.hintBtn.classList.add("question__hint-btn--active");
   var currentQuestion = data[_globals__WEBPACK_IMPORTED_MODULE_1__.getQuestionIndex() - 1];
   var currentQuestionAnswers = Object.values(currentQuestion.answers);
   var correctAnswer = (0,_helperFunctions__WEBPACK_IMPORTED_MODULE_2__.findCorrectAnswerIndex)(Object.values(currentQuestion.correct_answers));
@@ -679,6 +688,12 @@ var displayQuestion = function displayQuestion(data) {
       });
     }
   });
+};
+var useHint = function useHint() {
+  console.log(_globals__WEBPACK_IMPORTED_MODULE_1__.getQuestionIndex());
+  console.log(_globals__WEBPACK_IMPORTED_MODULE_1__.getQuizData());
+  // TODO: select a random wrong answer from the current quesitonIndex
+  // TODO: apply a class that will gray it out and set its pointer events to none
 };
 
 /***/ }),
@@ -763,8 +778,8 @@ var generateQuizSettings = function generateQuizSettings() {
   return {
     amountOfQuestions: Number(_constants__WEBPACK_IMPORTED_MODULE_0__.amountOfQuestions.children[1].innerText),
     possibleAnswers: Number(_constants__WEBPACK_IMPORTED_MODULE_0__.possibleAnswers.children[1].innerText),
-    tipsOn: _constants__WEBPACK_IMPORTED_MODULE_0__.tipsAllowed.children[1].innerText === "Off" ? false : true,
-    timelimitOn: _constants__WEBPACK_IMPORTED_MODULE_0__.timelimitActivated.children[1].innerText === "Off" ? false : true,
+    tipsOn: _constants__WEBPACK_IMPORTED_MODULE_0__.tipsAllowed.children[1].innerText === "off" ? false : true,
+    timelimitOn: _constants__WEBPACK_IMPORTED_MODULE_0__.timelimitActivated.children[1].innerText === "off" ? false : true,
     difficulty: difficulty,
     tags: selectedTags
   };

@@ -108,7 +108,12 @@
             <!-- question layout begin -->
             <section class="question container container--inactive">
                 <h2>Question nr</h2>
-                <ul id="question-nav" class="question__numbers"></ul>
+                <div class="question__navigation">
+                    <ul id="question-nav" class="question__numbers"></ul>
+                    <div id="hint-btn" class="question__hint-btn">
+                        <img src="./src/images/icons/hint.svg" alt="lightbulb" />
+                    </div>
+                </div>
                 <h3 id="question" class="font-autopro"></h3>
                 <ul id="answer-list" class="question__answers"></ul>
                 <div class="question__controls">
@@ -135,40 +140,7 @@
             <!-- highscores lqyout begin -->
             <section class="highscores container container--inactive">
                 <h2>Highscores</h2>
-                <ul id="highscores-list" class="highscores__list">
-                    <!--
-                    <li class="highscores__entry highscores__entry--champion">
-                        <div class="highscores__entry-user">
-                            <img src="./src/images/icons/crown.svg" alt="crown" />
-                            <p>Bram Mortier</p>
-                        </div>
-                        <div class="highscores__entry-points">
-                            <p class="score font-gimlet">22489</p>
-                            <p class="score--label">Points</p>
-                        </div>
-                    </li>
-                    <li class="highscores__entry">
-                        <div class="highscores__entry-user">
-                            <img src="./src/images/icons/user.svg" alt="crown" />
-                            <p>Manu Van Leirberghe</p>
-                        </div>
-                        <div class="highscores__entry-points">
-                            <p class="score font-gimlet">18754</p>
-                            <p class="score--label">Points</p>
-                        </div>
-                    </li>
-                    <li class="highscores__entry">
-                        <div class="highscores__entry-user">
-                            <img src="./src/images/icons/user.svg" alt="crown" />
-                            <p>Fien Haelvoet</p>
-                        </div>
-                        <div class="highscores__entry-points">
-                            <p class="score font-gimlet">15689</p>
-                            <p class="score--label">Points</p>
-                        </div>
-                    </li>
-                    -->
-                </ul>
+                <ul id="highscores-list" class="highscores__list"></ul>
                 <button class="back-btn">
                     <img src="./src/images/icons/back-arrow.svg" alt="highscores" />
                     <p>back to startscreen</p>

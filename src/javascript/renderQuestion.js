@@ -42,6 +42,8 @@ export const renderQuestionNavigation = (questions) => {
 export const displayQuestion = (data) => {
     renderQuestionNavigation(data);
 
+    if (GLOBALS.getQuizSettings().tipsOn === true) CONSTS.hintBtn.classList.add("question__hint-btn--active");
+
     let currentQuestion = data[GLOBALS.getQuestionIndex() - 1];
 
     let currentQuestionAnswers = Object.values(currentQuestion.answers);
@@ -64,4 +66,11 @@ export const displayQuestion = (data) => {
             });
         }
     });
+};
+
+export const useHint = () => {
+    console.log(GLOBALS.getQuestionIndex());
+    console.log(GLOBALS.getQuizData());
+    // TODO: select a random wrong answer from the current quesitonIndex
+    // TODO: apply a class that will gray it out and set its pointer events to none
 };

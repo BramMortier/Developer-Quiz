@@ -17,7 +17,7 @@ import {
     updateSelectedTags,
     testQuizSettings,
 } from "./settings";
-import { displayQuestion, highlightSelectedAnswer } from "./renderQuestion";
+import { displayQuestion, highlightSelectedAnswer, useHint } from "./renderQuestion";
 // ------------------------------------------- //
 
 export const initEvents = () => {
@@ -130,5 +130,10 @@ export const initEvents = () => {
 
     CONSTS.closeHighscoreModal.addEventListener("click", () => {
         CONSTS.highscoreModal.classList.add("modal--hidden");
+    });
+
+    // Quiz hint button logic
+    CONSTS.hintBtn.addEventListener("click", () => {
+        useHint();
     });
 };

@@ -15,8 +15,8 @@ export const generateQuizSettings = () => {
     return {
         amountOfQuestions: Number(CONSTS.amountOfQuestions.children[1].innerText),
         possibleAnswers: Number(CONSTS.possibleAnswers.children[1].innerText),
-        tipsOn: CONSTS.tipsAllowed.children[1].innerText === "Off" ? false : true,
-        timelimitOn: CONSTS.timelimitActivated.children[1].innerText === "Off" ? false : true,
+        tipsOn: CONSTS.tipsAllowed.children[1].innerText === "off" ? false : true,
+        timelimitOn: CONSTS.timelimitActivated.children[1].innerText === "off" ? false : true,
         difficulty: difficulty,
         tags: selectedTags,
     };
