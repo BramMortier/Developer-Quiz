@@ -267,13 +267,11 @@ var initEvents = function initEvents() {
     if (_globals__WEBPACK_IMPORTED_MODULE_1__.getQuestionIndex() > _globals__WEBPACK_IMPORTED_MODULE_1__.getQuizSettings().amountOfQuestions - 1) _globals__WEBPACK_IMPORTED_MODULE_1__.setQuestionIndex(0);
     _globals__WEBPACK_IMPORTED_MODULE_1__.setQuestionIndex(_globals__WEBPACK_IMPORTED_MODULE_1__.getQuestionIndex() + 1);
     (0,_renderQuestion__WEBPACK_IMPORTED_MODULE_6__.displayQuestion)(_globals__WEBPACK_IMPORTED_MODULE_1__.getQuizData());
-    (0,_renderQuestion__WEBPACK_IMPORTED_MODULE_6__.highlightSelectedAnswer)(_globals__WEBPACK_IMPORTED_MODULE_1__.getQuestionIndex());
   });
   _constants__WEBPACK_IMPORTED_MODULE_0__.prevPageBtn.addEventListener("click", function () {
     if (_globals__WEBPACK_IMPORTED_MODULE_1__.getQuestionIndex() <= 1) _globals__WEBPACK_IMPORTED_MODULE_1__.setQuestionIndex(_globals__WEBPACK_IMPORTED_MODULE_1__.getQuizSettings().amountOfQuestions + 1);
     _globals__WEBPACK_IMPORTED_MODULE_1__.setQuestionIndex(_globals__WEBPACK_IMPORTED_MODULE_1__.getQuestionIndex() - 1);
     (0,_renderQuestion__WEBPACK_IMPORTED_MODULE_6__.displayQuestion)(_globals__WEBPACK_IMPORTED_MODULE_1__.getQuizData());
-    (0,_renderQuestion__WEBPACK_IMPORTED_MODULE_6__.highlightSelectedAnswer)(_globals__WEBPACK_IMPORTED_MODULE_1__.getQuestionIndex());
   });
 
   // Modal events
@@ -380,8 +378,10 @@ var fetchQuiz = /*#__PURE__*/function () {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "createAnswerStorage": () => (/* binding */ createAnswerStorage),
+/* harmony export */   "createHints": () => (/* binding */ createHints),
 /* harmony export */   "getAnswerStorage": () => (/* binding */ getAnswerStorage),
 /* harmony export */   "getHighscores": () => (/* binding */ getHighscores),
+/* harmony export */   "getHints": () => (/* binding */ getHints),
 /* harmony export */   "getQuestionIndex": () => (/* binding */ getQuestionIndex),
 /* harmony export */   "getQuizData": () => (/* binding */ getQuizData),
 /* harmony export */   "getQuizScore": () => (/* binding */ getQuizScore),
@@ -390,11 +390,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "initSessionStorage": () => (/* binding */ initSessionStorage),
 /* harmony export */   "setAnswerStorage": () => (/* binding */ setAnswerStorage),
 /* harmony export */   "setHighscores": () => (/* binding */ setHighscores),
+/* harmony export */   "setHints": () => (/* binding */ setHints),
 /* harmony export */   "setQuestionIndex": () => (/* binding */ setQuestionIndex),
 /* harmony export */   "setQuizData": () => (/* binding */ setQuizData),
 /* harmony export */   "setQuizScore": () => (/* binding */ setQuizScore),
 /* harmony export */   "setQuizSettings": () => (/* binding */ setQuizSettings),
-/* harmony export */   "updateAnswerStorage": () => (/* binding */ updateAnswerStorage)
+/* harmony export */   "updateAnswerStorage": () => (/* binding */ updateAnswerStorage),
+/* harmony export */   "updateHints": () => (/* binding */ updateHints)
 /* harmony export */ });
 /* harmony import */ var _highscores__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./highscores */ "./src/javascript/highscores.js");
 // ------------------------------------------- //
@@ -408,6 +410,9 @@ var initSessionStorage = function initSessionStorage() {
   }
   if (!sessionStorage.getItem("answerStorage")) {
     sessionStorage.setItem("answerStorage", []);
+  }
+  if (!sessionStorage.getItem("hints")) {
+    sessionStorage.setItem("hints", []);
   }
   if (!sessionStorage.getItem("quizSettings")) {
     sessionStorage.setItem("quizSettings", {});
@@ -431,7 +436,7 @@ var getQuizData = function getQuizData() {
 
 // AnswerStorage get & set
 var createAnswerStorage = function createAnswerStorage(data) {
-  var answerStorageBase = data.map(function (answer, index) {
+  var answerStorageBase = data.map(function () {
     return {
       selectedAnswer: -1,
       correctAnswer: -1
@@ -452,6 +457,31 @@ var setAnswerStorage = function setAnswerStorage(data) {
 };
 var getAnswerStorage = function getAnswerStorage() {
   return JSON.parse(sessionStorage.getItem("answerStorage"));
+};
+
+// Hints get & set
+var createHints = function createHints(data) {
+  var hintsBase = data.map(function () {
+    return {
+      hintUsed: false,
+      hintIndex: -1
+    };
+  });
+  setHints(hintsBase);
+};
+var updateHints = function updateHints(questionIndex, disabledAnswer) {
+  var currentHints = getHints();
+  currentHints[questionIndex - 1] = {
+    hintUsed: true,
+    hintIndex: disabledAnswer
+  };
+  setHints(currentHints);
+};
+var setHints = function setHints(data) {
+  sessionStorage.setItem("hints", JSON.stringify(data));
+};
+var getHints = function getHints() {
+  return JSON.parse(sessionStorage.getItem("hints"));
 };
 
 // QuizSettings get & set
@@ -621,6 +651,7 @@ var renderHighscores = function renderHighscores() {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "displayQuestion": () => (/* binding */ displayQuestion),
+/* harmony export */   "greyOutAnswer": () => (/* binding */ greyOutAnswer),
 /* harmony export */   "highlightSelectedAnswer": () => (/* binding */ highlightSelectedAnswer),
 /* harmony export */   "renderQuestionNavigation": () => (/* binding */ renderQuestionNavigation),
 /* harmony export */   "useHint": () => (/* binding */ useHint)
@@ -653,6 +684,24 @@ var highlightSelectedAnswer = function highlightSelectedAnswer(questionIndex) {
     }
   });
 };
+var greyOutAnswer = function greyOutAnswer(questionIndex) {
+  console.log(questionIndex);
+  var hintUsed = _globals__WEBPACK_IMPORTED_MODULE_1__.getHints()[questionIndex].hintUsed;
+  console.log(hintUsed);
+  var currentQuestion = _globals__WEBPACK_IMPORTED_MODULE_1__.getQuizData()[_globals__WEBPACK_IMPORTED_MODULE_1__.getQuestionIndex() - 1];
+  var correctAnswer = (0,_helperFunctions__WEBPACK_IMPORTED_MODULE_2__.findCorrectAnswerIndex)(Object.values(currentQuestion.correct_answers));
+  if (hintUsed === true) {
+    _toConsumableArray(_constants__WEBPACK_IMPORTED_MODULE_0__.answerList.children)[_globals__WEBPACK_IMPORTED_MODULE_1__.getHints()[questionIndex].hintIndex].classList.add("question__answer--disabled");
+  }
+  _toConsumableArray(_constants__WEBPACK_IMPORTED_MODULE_0__.answerList.children).map(function (el, index) {
+    if (index !== correctAnswer && hintUsed === false) {
+      el.classList.add("question__answer--disabled");
+      _globals__WEBPACK_IMPORTED_MODULE_1__.updateHints(questionIndex, index);
+      hintUsed = true;
+    }
+  });
+  console.log(hintUsed);
+};
 var renderQuestionNavigation = function renderQuestionNavigation(questions) {
   _constants__WEBPACK_IMPORTED_MODULE_0__.questionNav.innerHTML = "";
   questions.map(function (question, index) {
@@ -662,7 +711,6 @@ var renderQuestionNavigation = function renderQuestionNavigation(questions) {
     questionNumberEl.addEventListener("click", function (e) {
       _globals__WEBPACK_IMPORTED_MODULE_1__.setQuestionIndex(Number(e.target.innerText) > 9 ? Number(e.target.innerText) : Number(e.target.innerText.slice(1)));
       displayQuestion(_globals__WEBPACK_IMPORTED_MODULE_1__.getQuizData());
-      highlightSelectedAnswer(_globals__WEBPACK_IMPORTED_MODULE_1__.getQuestionIndex());
     });
     questionNumberEl.innerText = index >= 9 ? index + 1 : "0".concat(index + 1);
     _constants__WEBPACK_IMPORTED_MODULE_0__.questionNav.appendChild(questionNumberEl);
@@ -688,12 +736,10 @@ var displayQuestion = function displayQuestion(data) {
       });
     }
   });
+  highlightSelectedAnswer(_globals__WEBPACK_IMPORTED_MODULE_1__.getQuestionIndex());
 };
 var useHint = function useHint() {
-  console.log(_globals__WEBPACK_IMPORTED_MODULE_1__.getQuestionIndex());
-  console.log(_globals__WEBPACK_IMPORTED_MODULE_1__.getQuizData());
-  // TODO: select a random wrong answer from the current quesitonIndex
-  // TODO: apply a class that will gray it out and set its pointer events to none
+  greyOutAnswer(_globals__WEBPACK_IMPORTED_MODULE_1__.getQuestionIndex());
 };
 
 /***/ }),
@@ -1110,8 +1156,9 @@ var startNewQuiz = /*#__PURE__*/function () {
             _context.t0.setQuizData.call(_context.t0, _context.t1);
             _globals__WEBPACK_IMPORTED_MODULE_2__.createAnswerStorage(_globals__WEBPACK_IMPORTED_MODULE_2__.getQuizData());
             _globals__WEBPACK_IMPORTED_MODULE_2__.setQuestionIndex(1);
+            if (_globals__WEBPACK_IMPORTED_MODULE_2__.getQuizSettings().tipsOn === true) _globals__WEBPACK_IMPORTED_MODULE_2__.createHints(_globals__WEBPACK_IMPORTED_MODULE_2__.getQuizData());
             (0,_renderQuestion__WEBPACK_IMPORTED_MODULE_3__.displayQuestion)(_globals__WEBPACK_IMPORTED_MODULE_2__.getQuizData());
-          case 9:
+          case 10:
           case "end":
             return _context.stop();
         }

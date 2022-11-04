@@ -19,6 +19,28 @@ export const highlightSelectedAnswer = (questionIndex) => {
     });
 };
 
+export const greyOutAnswer = (questionIndex) => {
+    console.log(questionIndex);
+    let hintUsed = GLOBALS.getHints()[questionIndex].hintUsed;
+    console.log(hintUsed);
+
+    let currentQuestion = GLOBALS.getQuizData()[GLOBALS.getQuestionIndex() - 1];
+    let correctAnswer = findCorrectAnswerIndex(Object.values(currentQuestion.correct_answers));
+
+    if (hintUsed === true) {
+        [...CONSTS.answerList.children][GLOBALS.getHints()[questionIndex].hintIndex].classList.add("question__answer--disabled");
+    }
+
+    [...CONSTS.answerList.children].map((el, index) => {
+        if (index !== correctAnswer && hintUsed === false) {
+            el.classList.add("question__answer--disabled");
+            GLOBALS.updateHints(questionIndex, index);
+            hintUsed = true;
+        }
+    });
+    console.log(hintUsed);
+};
+
 export const renderQuestionNavigation = (questions) => {
     CONSTS.questionNav.innerHTML = "";
 
@@ -31,7 +53,6 @@ export const renderQuestionNavigation = (questions) => {
         questionNumberEl.addEventListener("click", (e) => {
             GLOBALS.setQuestionIndex(Number(e.target.innerText) > 9 ? Number(e.target.innerText) : Number(e.target.innerText.slice(1)));
             displayQuestion(GLOBALS.getQuizData());
-            highlightSelectedAnswer(GLOBALS.getQuestionIndex());
         });
 
         questionNumberEl.innerText = index >= 9 ? index + 1 : `0${index + 1}`;
@@ -66,11 +87,9 @@ export const displayQuestion = (data) => {
             });
         }
     });
+    highlightSelectedAnswer(GLOBALS.getQuestionIndex());
 };
 
 export const useHint = () => {
-    console.log(GLOBALS.getQuestionIndex());
-    console.log(GLOBALS.getQuizData());
-    // TODO: select a random wrong answer from the current quesitonIndex
-    // TODO: apply a class that will gray it out and set its pointer events to none
+    greyOutAnswer(GLOBALS.getQuestionIndex());
 };

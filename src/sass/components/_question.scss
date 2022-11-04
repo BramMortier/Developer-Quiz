@@ -118,6 +118,12 @@
                 color: var(--accent);
             }
         }
+
+        &--disabled {
+            pointer-events: none;
+            background-color: var(--dark-gray);
+            border: none;
+        }
     }
 
     &__controls {

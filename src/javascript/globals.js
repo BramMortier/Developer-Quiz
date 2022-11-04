@@ -10,6 +10,9 @@ export const initSessionStorage = () => {
     if (!sessionStorage.getItem("answerStorage")) {
         sessionStorage.setItem("answerStorage", []);
     }
+    if (!sessionStorage.getItem("hints")) {
+        sessionStorage.setItem("hints", []);
+    }
     if (!sessionStorage.getItem("quizSettings")) {
         sessionStorage.setItem("quizSettings", {});
     }
@@ -34,7 +37,7 @@ export const getQuizData = () => {
 
 // AnswerStorage get & set
 export const createAnswerStorage = (data) => {
-    let answerStorageBase = data.map((answer, index) => {
+    let answerStorageBase = data.map(() => {
         return {
             selectedAnswer: -1,
             correctAnswer: -1,
@@ -58,6 +61,34 @@ export const setAnswerStorage = (data) => {
 
 export const getAnswerStorage = () => {
     return JSON.parse(sessionStorage.getItem("answerStorage"));
+};
+
+// Hints get & set
+export const createHints = (data) => {
+    let hintsBase = data.map(() => {
+        return {
+            hintUsed: false,
+            hintIndex: -1,
+        };
+    });
+    setHints(hintsBase);
+};
+
+export const updateHints = (questionIndex, disabledAnswer) => {
+    let currentHints = getHints();
+    currentHints[questionIndex - 1] = {
+        hintUsed: true,
+        hintIndex: disabledAnswer,
+    };
+    setHints(currentHints);
+};
+
+export const setHints = (data) => {
+    sessionStorage.setItem("hints", JSON.stringify(data));
+};
+
+export const getHints = () => {
+    return JSON.parse(sessionStorage.getItem("hints"));
 };
 
 // QuizSettings get & set

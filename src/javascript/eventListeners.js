@@ -105,14 +105,12 @@ export const initEvents = () => {
         if (GLOBALS.getQuestionIndex() > GLOBALS.getQuizSettings().amountOfQuestions - 1) GLOBALS.setQuestionIndex(0);
         GLOBALS.setQuestionIndex(GLOBALS.getQuestionIndex() + 1);
         displayQuestion(GLOBALS.getQuizData());
-        highlightSelectedAnswer(GLOBALS.getQuestionIndex());
     });
 
     CONSTS.prevPageBtn.addEventListener("click", () => {
         if (GLOBALS.getQuestionIndex() <= 1) GLOBALS.setQuestionIndex(GLOBALS.getQuizSettings().amountOfQuestions + 1);
         GLOBALS.setQuestionIndex(GLOBALS.getQuestionIndex() - 1);
         displayQuestion(GLOBALS.getQuizData());
-        highlightSelectedAnswer(GLOBALS.getQuestionIndex());
     });
 
     // Modal events

@@ -35,5 +35,6 @@ const startNewQuiz = async () => {
     GLOBALS.setQuizData(await fetchQuiz());
     GLOBALS.createAnswerStorage(GLOBALS.getQuizData());
     GLOBALS.setQuestionIndex(1);
+    if (GLOBALS.getQuizSettings().tipsOn === true) GLOBALS.createHints(GLOBALS.getQuizData());
     displayQuestion(GLOBALS.getQuizData());
 };
