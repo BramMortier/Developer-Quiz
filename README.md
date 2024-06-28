@@ -1,6 +1,6 @@
 # Developer Quiz
 
-![Developer Quiz](https://github.com/BramMortier/Developer-Quiz/assets/79015250/1bb5f518-7109-4e51-8c12-c5d103b096d8)
+![Developer Quiz](https://github.com/BramMortier/Developer-Quiz/assets/79015250/a5343db9-bd92-465b-9eeb-49dc66f68d78)
 
 ## Technologies used in this project:
 
