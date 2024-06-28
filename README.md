@@ -1,6 +1,6 @@
 # Developer Quiz
 
-![](./design/Startscreen%402x.png)
+![Developer Quiz](https://github.com/BramMortier/Developer-Quiz/assets/79015250/1bb5f518-7109-4e51-8c12-c5d103b096d8)
 
 ## Technologies used in this project:
 
