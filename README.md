@@ -2,6 +2,8 @@
 
 ![Developer Quiz](https://github.com/BramMortier/Developer-Quiz/assets/79015250/a5343db9-bd92-465b-9eeb-49dc66f68d78)
 
+![Developer Quiz-4](https://github.com/BramMortier/Developer-Quiz/assets/79015250/c8768f4a-320c-4555-acc5-240271d5bdc8)
+
 ## Technologies used in this project:
 
 -   HTML & SCSS
