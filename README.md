@@ -1,8 +1,8 @@
 # Developer Quiz
 
-![Developer Quiz](https://github.com/BramMortier/Developer-Quiz/assets/79015250/a5343db9-bd92-465b-9eeb-49dc66f68d78)
+![Developer Quiz](https://github.com/BramMortier/Developer-Quiz/assets/79015250/22a8ccec-0352-4720-bc8a-8a165651ce17)
 
-![Developer Quiz-4](https://github.com/BramMortier/Developer-Quiz/assets/79015250/c8768f4a-320c-4555-acc5-240271d5bdc8)
+![Developer Quiz-2](https://github.com/BramMortier/Developer-Quiz/assets/79015250/8b01145a-934b-4206-86eb-66c6335fd3ab)
 
 ## Technologies used in this project:
 
